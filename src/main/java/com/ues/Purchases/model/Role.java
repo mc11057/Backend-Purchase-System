@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Role {
 	
@@ -22,6 +24,7 @@ public class Role {
 	Long id;
 	
 	@OneToMany(mappedBy = "role")
+	@JsonIgnore
 	Set<UserRole> users;
 	
 	@Enumerated(EnumType.STRING)
@@ -58,7 +61,6 @@ public class Role {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 

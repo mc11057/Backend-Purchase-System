@@ -50,7 +50,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		final CorsConfiguration configuration = new CorsConfiguration();
 		List<String> list = new ArrayList<>();
 		list.add("*");
-		configuration.setAllowedOrigins(list);
+		//configuration.setAllowedOrigins(list); This is not allowed on Spring boot 2.4
+		configuration.setAllowedOriginPatterns(list);
 		list = getHttpMethods();
 		configuration.setAllowedMethods(list);
 		configuration.setAllowCredentials(true);

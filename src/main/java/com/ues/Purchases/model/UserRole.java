@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user_role")
 public class UserRole {
@@ -17,11 +19,13 @@ public class UserRole {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     ApplicationUser user;
 
     @ManyToOne
     @MapsId("roleId")
     @JoinColumn(name = "role_id")
+    @JsonIgnore
     Role role;
 
 	public UserRoleKey getId() {

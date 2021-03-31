@@ -25,6 +25,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ues.Purchases.model.ApplicationUser;
 import com.ues.Purchases.service.impl.UserDetailsServiceImpl;
+import com.ues.Purchases.utility.NotFoundException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -55,13 +56,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		if (token != null) {
 			String userName = getUserNameFromToken(token);
 			if (!ObjectUtils.isEmpty(userName)) {
-				ApplicationUser user = getUserFromDatabase(userName);
-				if (user != null) {
+				ApplicationUser user;
+				try {
+					user = getUserFromDatabase(userName);
 					List<GrantedAuthority> roleList = new ArrayList<GrantedAuthority>();
 					getRolesFromUser(user, roleList);
-					return new UsernamePasswordAuthenticationToken(userName, null, roleList);
+					return new UsernamePasswordAuthenticationToken(userName, null, roleList);					
+				} catch (NotFoundException e) {
 
 				}
+
 			}
 		}
 		return null;
@@ -73,8 +77,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		return roleList;
 	}
 
-	private ApplicationUser getUserFromDatabase(String userName) {
-		return userDetailsService.findByUserName(userName);
+	private ApplicationUser getUserFromDatabase(String userName) throws NotFoundException {
+		return userDetailsService.findByUsername(userName);
 	}
 
 	private String getUserNameFromToken(String token) {

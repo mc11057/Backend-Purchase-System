@@ -21,7 +21,6 @@ public class ApplicationUser {
 	@SequenceGenerator(name = "app_user_seq", sequenceName = "AppUser_seq",allocationSize = 1)
     @Column(name="id", unique=true, nullable=false, precision=15, scale=0)
 	Long id;
-	
 	@OneToMany(mappedBy = "user")
     Set<UserRole> roles;
 	
@@ -69,7 +68,6 @@ public class ApplicationUser {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
