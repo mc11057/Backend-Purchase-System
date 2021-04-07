@@ -11,45 +11,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ues.Purchases.model.Pais;
-import com.ues.Purchases.service.IPaisService;
+import com.ues.Purchases.model.Sucursal;
+import com.ues.Purchases.service.ISucursalService;
 import com.ues.Purchases.utility.NotFoundException;
 
 @RestController
-@RequestMapping("/app/v1/pais")
-public class PaisController {
-
+@RequestMapping("/app/v1/sucursal")
+public class SucursalController {
+	
 	@Autowired
-	private IPaisService paisService;
-	
-	
-	
-	public PaisController(IPaisService paisService ) {
-		this.paisService = paisService;
+	private ISucursalService sucursalService;
 
+	public SucursalController(ISucursalService sucursalService) {
+		super();
+		this.sucursalService = sucursalService;
 	}
 	
-	
 	@GetMapping()
-	public ResponseEntity<List<Pais>> getPais() {
-
-		List<Pais> paises = new ArrayList<Pais>();
+	public ResponseEntity<List<Sucursal>> getSucursal() {
+		
+		List<Sucursal> sucursales = new ArrayList<Sucursal>();
+		
 		try {
-			paises = (List<Pais>) paisService.findAllPais();
-			return new ResponseEntity<List<Pais>>(paises, HttpStatus.OK);
-		} catch (NotFoundException ex) {
+			sucursales = sucursalService.findAllSucursal();
+			return new ResponseEntity<List<Sucursal>>(sucursales, HttpStatus.OK);
+		} catch (NotFoundException ne) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pais> get(@PathVariable("id") Long id) {
+	public ResponseEntity<Sucursal> get(@PathVariable("id") Long id) {
 		try {
-			Pais pais = paisService.findById(id);
-			return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+			Sucursal sucursales = sucursalService.findById(id);
+			return new ResponseEntity<Sucursal>(sucursales, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -57,7 +55,5 @@ public class PaisController {
 
 		}
 	}
-	
-	
-	
+
 }

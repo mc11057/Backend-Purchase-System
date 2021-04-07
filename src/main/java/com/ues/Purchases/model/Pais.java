@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -26,59 +28,44 @@ public class Pais {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pais_seq")
 	@SequenceGenerator(name = "pais_seq", sequenceName = "Pais_seq",allocationSize = 1)
-    @Column(name="id", unique=true, nullable=false, precision=15, scale=0)
-	Long id;
+    @Column(name="pais_id", unique=true, nullable=false, precision=15, scale=0)
+	Long paisId;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
     private String nombre;
 
 	@Column(name = "create_date",  nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
 	}
 
-
-	public List<Estado> getEstados() {
-		return estados;
-	}
-
-
-	public void setEstados(List<Estado> estados) {
-		this.estados = estados;
-	}
-
-
 	@Column(name = "user_create",  nullable = false, length = 100)
     private String userCreate;
 
 	@Column(name = "update_date",  nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date UpdateDate;
 
 	@Column(name = "user_update",  nullable = true, length = 100)
     private String userUpdate;
 
-
-	@Column(name="region_id", updatable=true, insertable=true)
-	public Long regionId;
+	@ManyToOne
+	@JoinColumn(name = "region_id", nullable = false )
+	private Region regionId;
 	
-	@OneToMany(mappedBy = "paisId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "paisId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Estado.class)
 	private List<Estado> estados;
 	
-
-	public Long getId() {
-		return id;
+	public Long getPaisId() {
+		return paisId;
 	}
 
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setPaisId(Long paisId) {
+		this.paisId = paisId;
 	}
-
 
 	public String getNombre() {
 		return nombre;
@@ -131,11 +118,9 @@ public class Pais {
 
 
 	public Long getRegionId() {
-		return regionId;
+		return regionId.regionId;
 	}
 
 
-	public void setRegionId(Long regionId) {
-		this.regionId = regionId;
-	}
+	
 }

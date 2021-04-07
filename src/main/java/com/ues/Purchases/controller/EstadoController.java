@@ -12,14 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ues.Purchases.model.Estado;
-import com.ues.Purchases.model.Pais;
 import com.ues.Purchases.service.IEstadoService;
-import com.ues.Purchases.service.IPaisService;
 import com.ues.Purchases.utility.NotFoundException;
 
 @RestController
 @RequestMapping("app/v1/estado")
-
 public class EstadoController {
 	
 	@Autowired
@@ -50,8 +47,8 @@ public class EstadoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> get(@PathVariable("id") Long id) {
 		try {
-			Estado pais = estadoService.findById(id);
-			return new ResponseEntity<Estado>(pais, HttpStatus.OK);
+			Estado estado = estadoService.findById(id);
+			return new ResponseEntity<Estado>(estado, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {

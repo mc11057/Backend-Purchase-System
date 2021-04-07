@@ -24,16 +24,15 @@ public class Region {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reguion_seq")
 	@SequenceGenerator(name = "reguion_seq", sequenceName = "Reguion_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "region_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long regionId;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -43,18 +42,21 @@ public class Region {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
+	
+	@OneToMany(mappedBy = "regionId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pais.class)
+	private List<Pais> paises;
 
-	public Long getId() {
-		return id;
+		public Long getRegionId() {
+		return regionId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setRegionId(Long regionId) {
+		this.regionId = regionId;
 	}
 
 	public String getNombre() {
@@ -97,18 +99,9 @@ public class Region {
 		this.userUpdate = userUpdate;
 	}
 
-	@OneToMany(mappedBy = "regionId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
-	private List<Pais> paises;
+	
 
-	public List<Pais> getPaises() {
-		return paises;
-	}
-
-	public void setPaises(List<Pais> paises) {
-		this.paises = paises;
-	}
-
+	
 	
 	
 	

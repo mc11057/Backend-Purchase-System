@@ -11,32 +11,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ues.Purchases.model.Pais;
-import com.ues.Purchases.service.IPaisService;
+import com.ues.Purchases.model.Ubicacion;
+import com.ues.Purchases.service.IUbicacionService;
 import com.ues.Purchases.utility.NotFoundException;
 
 @RestController
-@RequestMapping("/app/v1/pais")
-public class PaisController {
-
+@RequestMapping("/app/v1/ubicacion")
+public class UbicacionController {
+	
 	@Autowired
-	private IPaisService paisService;
+	private IUbicacionService ubicacionService;
 	
-	
-	
-	public PaisController(IPaisService paisService ) {
-		this.paisService = paisService;
-
+	public UbicacionController(IUbicacionService ubicacionService) {
+		this.ubicacionService=ubicacionService;
 	}
 	
 	
 	@GetMapping()
-	public ResponseEntity<List<Pais>> getPais() {
+	public ResponseEntity<List<Ubicacion>> getUbicacion() {
 
-		List<Pais> paises = new ArrayList<Pais>();
+		List<Ubicacion> ubicaciones = new ArrayList<Ubicacion>();
 		try {
-			paises = (List<Pais>) paisService.findAllPais();
-			return new ResponseEntity<List<Pais>>(paises, HttpStatus.OK);
+			ubicaciones = (List<Ubicacion>) ubicacionService.findAllUbicacion();
+			return new ResponseEntity<List<Ubicacion>>(ubicaciones, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -44,12 +41,11 @@ public class PaisController {
 		}
 	}
 	
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pais> get(@PathVariable("id") Long id) {
+	public ResponseEntity<Ubicacion> get(@PathVariable("id") Long id) {
 		try {
-			Pais pais = paisService.findById(id);
-			return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+			Ubicacion ubicaciones = ubicacionService.findById(id);
+			return new ResponseEntity<Ubicacion>(ubicaciones, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -57,7 +53,6 @@ public class PaisController {
 
 		}
 	}
-	
-	
-	
+
+
 }

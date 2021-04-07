@@ -27,14 +27,14 @@ public class TipoHorario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_horario_seq")
 	@SequenceGenerator(name = "tipo_horario_seq", sequenceName = "Tipo_horario_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "tipo_horario_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long tipoHorarioId;
 
 	@Column(name = "tipo", unique = true, nullable = false, length = 100)
 	private String tipo;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
 	@PrePersist
@@ -46,22 +46,23 @@ public class TipoHorario {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@OneToMany(mappedBy = "tipoHorarioId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "tipoHorarioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Horario.class)
 	private List<Horario> horarios;
 
-	public Long getId() {
-		return id;
+	
+
+	public Long getTipoHorarioId() {
+		return tipoHorarioId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTipoHorarioId(Long tipoHorarioId) {
+		this.tipoHorarioId = tipoHorarioId;
 	}
 
 	public String getTipo() {
@@ -104,13 +105,6 @@ public class TipoHorario {
 		this.userUpdate = userUpdate;
 	}
 
-	public List<Horario> getHorarios() {
-		return horarios;
-	}
-
-	public void setHorarios(List<Horario> horarios) {
-		this.horarios = horarios;
-	}
 	
 	
 	

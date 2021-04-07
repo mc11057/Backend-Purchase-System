@@ -11,32 +11,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ues.Purchases.model.Pais;
-import com.ues.Purchases.service.IPaisService;
+import com.ues.Purchases.model.Barrio;
+import com.ues.Purchases.service.IBarrioService;
 import com.ues.Purchases.utility.NotFoundException;
 
 @RestController
-@RequestMapping("/app/v1/pais")
-public class PaisController {
-
+@RequestMapping("app/v1/barrio")
+public class BarrioController {
+	
 	@Autowired
-	private IPaisService paisService;
-	
-	
-	
-	public PaisController(IPaisService paisService ) {
-		this.paisService = paisService;
+	private IBarrioService barrioService;
 
+	public BarrioController(IBarrioService barrioService) {
+		super();
+		this.barrioService = barrioService;
 	}
 	
-	
 	@GetMapping()
-	public ResponseEntity<List<Pais>> getPais() {
+	public ResponseEntity<List<Barrio>> getBarrio() {
 
-		List<Pais> paises = new ArrayList<Pais>();
+		List<Barrio> barrios = new ArrayList<Barrio>();
 		try {
-			paises = (List<Pais>) paisService.findAllPais();
-			return new ResponseEntity<List<Pais>>(paises, HttpStatus.OK);
+			barrios = (List<Barrio>) barrioService.findAllBarrio();
+			return new ResponseEntity<List<Barrio>>(barrios, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -44,12 +41,11 @@ public class PaisController {
 		}
 	}
 	
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pais> get(@PathVariable("id") Long id) {
+	public ResponseEntity<Barrio> get(@PathVariable("id") Long id) {
 		try {
-			Pais pais = paisService.findById(id);
-			return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+			Barrio barrios = barrioService.findById(id);
+			return new ResponseEntity<Barrio>(barrios, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -57,7 +53,5 @@ public class PaisController {
 
 		}
 	}
-	
-	
-	
+
 }

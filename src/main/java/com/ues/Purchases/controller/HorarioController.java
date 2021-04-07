@@ -11,32 +11,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ues.Purchases.model.Pais;
-import com.ues.Purchases.service.IPaisService;
+import com.ues.Purchases.model.Horario;
+import com.ues.Purchases.service.IHorarioService;
 import com.ues.Purchases.utility.NotFoundException;
 
 @RestController
-@RequestMapping("/app/v1/pais")
-public class PaisController {
-
+@RequestMapping("/app/v1/horario")
+public class HorarioController {
+	
 	@Autowired
-	private IPaisService paisService;
-	
-	
-	
-	public PaisController(IPaisService paisService ) {
-		this.paisService = paisService;
+	private IHorarioService horarioService;
 
+	public HorarioController(IHorarioService horarioService) {
+		super();
+		this.horarioService = horarioService;
 	}
 	
 	
 	@GetMapping()
-	public ResponseEntity<List<Pais>> getPais() {
+	public ResponseEntity<List<Horario>> getHorario() {
 
-		List<Pais> paises = new ArrayList<Pais>();
+		List<Horario> horarios = new ArrayList<Horario>();
 		try {
-			paises = (List<Pais>) paisService.findAllPais();
-			return new ResponseEntity<List<Pais>>(paises, HttpStatus.OK);
+			horarios = (List<Horario>) horarioService.findAllHorario();
+			return new ResponseEntity<List<Horario>>(horarios, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -44,12 +42,11 @@ public class PaisController {
 		}
 	}
 	
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pais> get(@PathVariable("id") Long id) {
+	public ResponseEntity<Horario> get(@PathVariable("id") Long id) {
 		try {
-			Pais pais = paisService.findById(id);
-			return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+			Horario horarios = horarioService.findById(id);
+			return new ResponseEntity<Horario>(horarios, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
@@ -57,7 +54,5 @@ public class PaisController {
 
 		}
 	}
-	
-	
-	
+
 }

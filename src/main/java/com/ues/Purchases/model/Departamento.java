@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -24,24 +26,15 @@ public class Departamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "departamento_seq")
 	@SequenceGenerator(name = "departamento_seq", sequenceName = "Departamento_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "departamento_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long departamentoId;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
-	public List<Ciudad> getCiudades() {
-		return ciudades;
-	}
-
-	public void setCiudades(List<Ciudad> ciudades) {
-		this.ciudades = ciudades;
-	}
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -51,26 +44,28 @@ public class Departamento {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@Column(name="estado_id", updatable=true, insertable=true)
-	public Long estadoId;
+		
+	@ManyToOne
+	@JoinColumn(name = "estado_id", nullable = false )
+	private Estado estadoId;
 	
-	
-	@OneToMany(mappedBy = "departamentoId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "departamentoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Ciudad.class )
 	private List<Ciudad> ciudades;
 
-	public Long getId() {
-		return id;
+	
+
+	public Long getDepartamentoId() {
+		return departamentoId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDepartamentoId(Long departamentoId) {
+		this.departamentoId = departamentoId;
 	}
 
 	public String getNombre() {
@@ -114,12 +109,10 @@ public class Departamento {
 	}
 
 	public Long getEstadoId() {
-		return estadoId;
+		return estadoId.estadoId;
 	}
 
-	public void setEstadoId(Long estadoId) {
-		this.estadoId = estadoId;
-	}
+	
 	
 	
 

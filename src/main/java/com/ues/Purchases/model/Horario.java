@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -24,19 +26,19 @@ public class Horario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "horario_seq")
 	@SequenceGenerator(name = "horario_seq", sequenceName = "Horario_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "horario_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long horarioId;
 
 	@Column(name = "hora_entrada", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date horaEntrada;
 	
 	@Column(name = "hora_salida", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date horaSalida;
 		
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
 	@PrePersist
@@ -48,35 +50,27 @@ public class Horario {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
-	
-	@Column(name="tipo_horario_id", updatable=true, insertable=true)
-	public Long tipoHorarioId;
 
+	@ManyToOne
+	@JoinColumn(name = "tipo_horario_id", nullable = false )
+	private TipoHorario tipoHorarioId;
 	
-	@OneToMany(mappedBy = "horarioId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "horarioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Sucursal.class)
 	private List<Sucursal> sucursales;
 	
 	
-	public List<Sucursal> getSucursales() {
-		return sucursales;
+
+	public Long getHorarioId() {
+		return horarioId;
 	}
 
-	public void setSucursales(List<Sucursal> sucursales) {
-		this.sucursales = sucursales;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setHorarioId(Long horarioId) {
+		this.horarioId = horarioId;
 	}
 
 	public Date getHoraEntrada() {
@@ -128,13 +122,8 @@ public class Horario {
 	}
 
 	public Long getTipoHorarioId() {
-		return tipoHorarioId;
+		return tipoHorarioId.tipoHorarioId;
 	}
 
-	public void setTipoHorarioId(Long tipoHorarioId) {
-		this.tipoHorarioId = tipoHorarioId;
-	}
-	
-	
 
 }

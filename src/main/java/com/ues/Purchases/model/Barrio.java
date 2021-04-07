@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -25,14 +27,14 @@ public class Barrio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "barrio_seq")
 	@SequenceGenerator(name = "barrio_seq", sequenceName = "Barrio_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "barrio_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long barrioId;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
 	@PrePersist
@@ -44,35 +46,28 @@ public class Barrio {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@Column(name="ciudad_id", updatable=true, insertable=true)
-	public Long ciudadId;
 	
-	@OneToMany(mappedBy = "barrioId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "ciudad_id", nullable = false )
+	private Ciudad ciudadId;
+	
+	@OneToMany(mappedBy = "barrioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Ubicacion.class)
 	private List<Ubicacion> ubicaciones;
 	
 	
 
-	public List<Ubicacion> getUbicaciones() {
-		return ubicaciones;
+	public Long getBarrioId() {
+		return barrioId;
 	}
 
-	public void setUbicaciones(List<Ubicacion> ubicaciones) {
-		this.ubicaciones = ubicaciones;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setBarrioId(Long barrioId) {
+		this.barrioId = barrioId;
 	}
 
 	public String getNombre() {
@@ -116,12 +111,9 @@ public class Barrio {
 	}
 
 	public Long getCiudadId() {
-		return ciudadId;
+		return ciudadId.ciudadId;
 	}
 
-	public void setCiudadId(Long ciudadId) {
-		this.ciudadId = ciudadId;
-	}
 	
 	
 }

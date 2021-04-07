@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -18,14 +20,14 @@ public class Sucursal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sucursal_seq")
 	@SequenceGenerator(name = "sucursal_seq", sequenceName = "Sucursal_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "sucursal_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long sucursalId;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
 	@PrePersist
@@ -37,24 +39,30 @@ public class Sucursal {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@Column(name="horario_id", updatable=true, insertable=true)
-	public Long horarioId;
+	@ManyToOne
+	@JoinColumn(name = "horario_id", nullable = false )
+	private Horario horarioId;
 	
-	@Column(name="ubicacion_id", updatable=true, insertable=true)
-	public Long ubicacionId;
+	
+	@ManyToOne
+	@JoinColumn(name = "ubicacion_id", nullable = false )
+	private Ubicacion ubicacionId;
+		
+	
+	
 
-	public Long getId() {
-		return id;
+	public Long getSucursalId() {
+		return sucursalId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setSucursalId(Long sucursalId) {
+		this.sucursalId = sucursalId;
 	}
 
 	public String getNombre() {
@@ -98,20 +106,15 @@ public class Sucursal {
 	}
 
 	public Long getHorarioId() {
-		return horarioId;
+		return horarioId.horarioId;
 	}
 
-	public void setHorarioId(Long horarioId) {
-		this.horarioId = horarioId;
-	}
+	
 
 	public Long getUbicacionId() {
-		return ubicacionId;
+		return ubicacionId.UbicacionId;
 	}
 
-	public void setUbicacionId(Long ubicacionId) {
-		this.ubicacionId = ubicacionId;
-	}
 	
 	
 

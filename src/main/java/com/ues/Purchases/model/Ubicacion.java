@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -24,14 +26,14 @@ public class Ubicacion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ubicacion_seq")
 	@SequenceGenerator(name = "ubicacion_seq", sequenceName = "Ubicacion_seq", allocationSize = 1)
-	@Column(name = "id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long id;
+	@Column(name = "ubicacion_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long UbicacionId;
 
 	@Column(name = "direccion", unique = true, nullable = false, length = 100)
 	private String direccion;
 
 	@Column(name = "create_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
 	@PrePersist
@@ -43,34 +45,28 @@ public class Ubicacion {
 	private String userCreate;
 
 	@Column(name = "update_date", nullable = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@Column(name="barrio_id", updatable=true, insertable=true)
-	public Long barrioId;
+		
+	@ManyToOne
+	@JoinColumn(name = "barrio_id", nullable = false )
+	private Barrio barrioId;
 	
-	@OneToMany(mappedBy = "ubicacionId", cascade = { CascadeType.ALL },fetch = FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "ubicacionId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Sucursal.class)
 	private List<Sucursal> sucursales;
 	
 	
-	public List<Sucursal> getSucursales() {
-		return sucursales;
+
+	public Long getUbicacionId() {
+		return UbicacionId;
 	}
 
-	public void setSucursales(List<Sucursal> sucursales) {
-		this.sucursales = sucursales;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setUbicacionId(Long ubicacionId) {
+		UbicacionId = ubicacionId;
 	}
 
 	public String getDireccion() {
@@ -114,12 +110,10 @@ public class Ubicacion {
 	}
 
 	public Long getBarrioId() {
-		return barrioId;
+		return barrioId.barrioId;
 	}
 
-	public void setBarrioId(Long barrioId) {
-		this.barrioId = barrioId;
-	}
+	
 
 	
 }
