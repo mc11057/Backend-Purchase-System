@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -18,17 +16,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Sucursal {
-	
+public class CategoriaEmpleado {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sucursal_seq")
-	@SequenceGenerator(name = "sucursal_seq", sequenceName = "Sucursal_seq", allocationSize = 1)
-	@Column(name = "sucursal_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long sucursalId;
-
-	@Column(name = "nombre", unique = true, nullable = false, length = 100)
-	private String nombre;
-
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_emp_seq")
+	@SequenceGenerator(name = "categoria_emp_seq", sequenceName = "CategoriaEmp_seq", allocationSize = 1)
+	@Column(name = "categoria_empleado_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long catEmpleadoId;
+	
+	@OneToMany(mappedBy = "categoriaEmpleadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	private List<Empleado> empleados;
+	
+	@Column(name = "tipo",  nullable = false, length = 100)
+	private String tipo;
+	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
@@ -47,36 +47,29 @@ public class Sucursal {
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
-	
-	@ManyToOne
-	@JoinColumn(name = "horario_id", nullable = false )
-	private Horario horarioId;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "ubicacion_id", nullable = false )
-	private Ubicacion ubicacionId;
-	
-	@OneToMany(mappedBy = "sucursalId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
-	private List<Empleado> empleados;
-		
-	
-	
 
-	public Long getSucursalId() {
-		return sucursalId;
+	public Long getCatEmpleadoId() {
+		return catEmpleadoId;
 	}
 
-	public void setSucursalId(Long sucursalId) {
-		this.sucursalId = sucursalId;
+	public void setCatEmpleadoId(Long catEmpleadoId) {
+		this.catEmpleadoId = catEmpleadoId;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public List<Empleado> getEmpleados() {
+		return empleados;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public Date getCreateDate() {
@@ -110,19 +103,8 @@ public class Sucursal {
 	public void setUserUpdate(String userUpdate) {
 		this.userUpdate = userUpdate;
 	}
-
-	public Long getHorarioId() {
-		return horarioId.horarioId;
-	}
-
-	
-
-	public Long getUbicacionId() {
-		return ubicacionId.UbicacionId;
-	}
-
 	
 	
-
+	
 
 }

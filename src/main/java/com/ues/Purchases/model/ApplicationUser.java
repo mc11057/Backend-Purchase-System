@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class ApplicationUser {
 	@SequenceGenerator(name = "app_user_seq", sequenceName = "AppUser_seq",allocationSize = 1)
     @Column(name="id", unique=true, nullable=false, precision=15, scale=0)
 	Long id;
-	@OneToMany(mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
     Set<UserRole> roles;
 	
 	@Column(name = "username", unique = true, nullable = false, length = 50)

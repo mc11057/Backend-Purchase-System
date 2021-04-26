@@ -10,10 +10,9 @@ insert into app_user(id,username,password) values (app_user_seq.nextval,'adminUs
 insert into app_user(id,username,password) values (app_user_seq.nextval,'customerUser','$2a$10$4myBvPzw.5.y.8FBZ/5JLOYozDIpZBlCoAaAjKgX5xuGVcVmbZ9xK'); 
 
 --insert user roles relation
-insert into user_role(user_id,role_id) values (1,1); 
-insert into user_role(user_id,role_id) values (1,2);
-insert into user_role(user_id,role_id) values (2,2); 
-
+insert into user_role(user_id,role_id) (select a.id,b.id from app_user a,role b where a.username='adminUser' and b.name='ADMIN');
+insert into user_role(user_id,role_id) (select a.id,b.id from app_user a,role b where a.username='adminUser' and b.name='USER');
+insert into user_role(user_id,role_id) (select a.id,b.id from app_user a,role b where a.username='customerUser' and b.name='USER');
 -- insert into region
 
 insert into region (region_id, nombre, user_create,create_date) values (reguion_seq.nextval,'Centro America', 'ADMIN', to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
