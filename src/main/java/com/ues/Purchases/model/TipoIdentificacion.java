@@ -48,6 +48,9 @@ public class TipoIdentificacion {
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
+	
+	@Column(nullable = false, length = 1)
+	private String estado;
 
 	public Long getTipoIdentificacionId() {
 		return tipoIdentificacionId;
@@ -57,13 +60,6 @@ public class TipoIdentificacion {
 		this.tipoIdentificacionId = tipoIdentificacionId;
 	}
 
-	public List<Documento> getDocumentos() {
-		return documentos;
-	}
-
-	public void setDocumentos(List<Documento> documentos) {
-		this.documentos = documentos;
-	}
 
 	public String getTipo() {
 		return tipo;
@@ -104,5 +100,14 @@ public class TipoIdentificacion {
 	public void setUserUpdate(String userUpdate) {
 		this.userUpdate = userUpdate;
 	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 	
 }

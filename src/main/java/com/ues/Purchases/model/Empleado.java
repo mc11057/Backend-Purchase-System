@@ -26,6 +26,10 @@ public class Empleado {
 	@Column(name = "empleado_id", unique = true, nullable = false, precision = 15, scale = 0)
 	Long empleadoId;
 	
+	
+	@OneToMany(mappedBy = "empleadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
+	private List<Pedido> pedidos;
+	
 	@ManyToOne
 	@JoinColumn(name = "sucursal_id", nullable = false )
 	Sucursal sucursalId;
@@ -52,7 +56,7 @@ public class Empleado {
 	@Column(name = "primer_nombre",  nullable = false, length = 100)
 	private String primer_nombre;
 	
-	@Column(name = "segundo_nombre",  nullable = false, length = 100)
+	@Column(name = "segundo_nombre", length = 100)
 	private String segundo_nombre;
 	
 	@Column(name = "primer_apellido",  nullable = false, length = 100)
@@ -66,6 +70,10 @@ public class Empleado {
 	
 	@Temporal(TemporalType.DATE)
 	private Date fecha_contratacion;
+	
+	@Column(nullable = false, length = 1)
+	private String estado;
+
 	
 	@Temporal(TemporalType.DATE)
 	private Date fecha_fin_contrato;
@@ -126,12 +134,7 @@ public class Empleado {
 	public void setEmpleadoId(Long empleadoId) {
 		this.empleadoId = empleadoId;
 	}
-	public List<Documento> getDocumentos() {
-		return documentos;
-	}
-	public void setDocumentos(List<Documento> documentos) {
-		this.documentos = documentos;
-	}
+
 	public String getPrimer_nombre() {
 		return primer_nombre;
 	}
@@ -230,6 +233,12 @@ public class Empleado {
 	}
 	public void setPuestoId(Puesto puestoId) {
 		this.puestoId = puestoId;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 	

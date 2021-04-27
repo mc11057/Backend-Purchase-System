@@ -61,6 +61,9 @@ public class Documento {
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
+	@Column(nullable = false, length = 1)
+	private String estado;
+	
 	public Long getEmpleadoId() 
 	{
 		return empleadoId.empleadoId;

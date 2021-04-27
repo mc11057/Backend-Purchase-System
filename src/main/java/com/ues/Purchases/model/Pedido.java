@@ -1,9 +1,8 @@
 package com.ues.Purchases.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,20 +19,30 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Estado {
+public class Pedido {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_seq")
-	@SequenceGenerator(name = "estado_seq", sequenceName = "Estado_seq", allocationSize = 1)
-	@Column(name = "estado_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long estadoId;
-
-	@Column(name = "nombre", unique = true, nullable = false, length = 100)
-	private String nombre;
-
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_seq")
+	@SequenceGenerator(name = "pedido_seq", sequenceName = "Pedido_seq", allocationSize = 1)
+	@Column(name = "pedido_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long pedidoId;
+	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
+
+	@OneToMany(mappedBy = "pedido")
+	@JsonIgnore
+	Set<PedidoProducto> pedidos;
+	
+	
+	public Set<PedidoProducto> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Set<PedidoProducto> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	@PrePersist
 	public void prePersist() {
@@ -46,46 +55,27 @@ public class Estado {
 	@Column(name = "update_date", nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
-	
-	@Column(nullable = false, length = 1)
-	private String estado;
-	
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
+	@Column(nullable = false, length = 1)
+	private String estado;
+	
 	@ManyToOne
-	@JoinColumn(name = "pais_id", nullable = false )
-	private Pais paisId;
-		
-	@OneToMany(mappedBy = "estadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Departamento.class )
-	@JsonIgnore
-	private List<Departamento> departamentos;
+	@JoinColumn(name = "proPedi_id", nullable = false )
+	private ProgresoPedido progresoPedidoId;
 	
+	@ManyToOne
+	@JoinColumn(name = "empleado_id", nullable = false )
+	private Empleado empleadoId;
 
-	
-	public Long getEstadoId() {
-		return estadoId;
+	public Long getPedidoId() {
+		return pedidoId;
 	}
 
-	public void setEstadoId(Long estadoId) {
-		this.estadoId = estadoId;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setPedidoId(Long pedidoId) {
+		this.pedidoId = pedidoId;
 	}
 
 	public Date getCreateDate() {
@@ -120,9 +110,22 @@ public class Estado {
 		this.userUpdate = userUpdate;
 	}
 
-	public Long getPaisId() {
-		return paisId.paisId;
+	public String getEstado() {
+		return estado;
 	}
 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public Long getProgresoPedidoId() {
+		return progresoPedidoId.progresoPedidoId;
+	}
+
+	public Long getEmpleadoId() {
+		return empleadoId.empleadoId;
+	}
 	
+	
+
 }

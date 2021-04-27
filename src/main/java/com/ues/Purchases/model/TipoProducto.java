@@ -9,28 +9,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Estado {
+public class TipoProducto {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_seq")
-	@SequenceGenerator(name = "estado_seq", sequenceName = "Estado_seq", allocationSize = 1)
-	@Column(name = "estado_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long estadoId;
-
-	@Column(name = "nombre", unique = true, nullable = false, length = 100)
-	private String nombre;
-
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_prod_seq")
+	@SequenceGenerator(name = "tipo_prod_seq", sequenceName = "TipoProd_seq", allocationSize = 1)
+	@Column(name = "tipoProd_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long tipoProductoId;
+	
+	@Column(name = "tipo",  nullable = false, length = 100)
+	private String tipo;
+	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
@@ -46,46 +42,30 @@ public class Estado {
 	@Column(name = "update_date", nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
-	
-	@Column(nullable = false, length = 1)
-	private String estado;
-	
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@ManyToOne
-	@JoinColumn(name = "pais_id", nullable = false )
-	private Pais paisId;
-		
-	@OneToMany(mappedBy = "estadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Departamento.class )
-	@JsonIgnore
-	private List<Departamento> departamentos;
+	@Column(nullable = false, length = 1)
+	private String estado;
 	
+	@OneToMany(mappedBy = "tipoProductoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Producto.class)
+	private List<Producto> productos;
 
-	
-	public Long getEstadoId() {
-		return estadoId;
+	public Long getTipoProductoId() {
+		return tipoProductoId;
 	}
 
-	public void setEstadoId(Long estadoId) {
-		this.estadoId = estadoId;
+	public void setTipoProductoId(Long tipoProductoId) {
+		this.tipoProductoId = tipoProductoId;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public Date getCreateDate() {
@@ -120,8 +100,12 @@ public class Estado {
 		this.userUpdate = userUpdate;
 	}
 
-	public Long getPaisId() {
-		return paisId.paisId;
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	

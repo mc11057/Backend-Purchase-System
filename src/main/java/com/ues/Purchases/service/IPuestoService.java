@@ -9,5 +9,7 @@ public interface IPuestoService {
 	 List<Puesto> findAll() throws Exception ;
 
 	 Puesto findById(Long id) throws Exception;
+	 
+	 List<Puesto> obtenerActivos() throws Exception;
 
 }

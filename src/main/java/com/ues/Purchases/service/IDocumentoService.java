@@ -9,5 +9,7 @@ public interface IDocumentoService {
 	 List<Documento> findAll() throws Exception ;
 
 	 Documento findById(Long id) throws Exception;
+	 
+	 List<Documento> obtenerActivos() throws Exception;
 
 }
