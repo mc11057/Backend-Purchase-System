@@ -28,7 +28,7 @@ public class CategoriaEmpleadoController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<List<CategoriaEmpleado>> getCategoriaProducto() {
+	public ResponseEntity<List<CategoriaEmpleado>> getAll() {
 
 		List<CategoriaEmpleado> categoriaEmpleados = new ArrayList<CategoriaEmpleado>();
 		try {

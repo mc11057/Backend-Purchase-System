@@ -28,7 +28,7 @@ public class TipoIdentificacionController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<List<TipoIdentificacion>> getCategoriaProducto() {
+	public ResponseEntity<List<TipoIdentificacion>> getAll() {
 
 		List<TipoIdentificacion> tipoIdentificaciones = new ArrayList<TipoIdentificacion>();
 		try {

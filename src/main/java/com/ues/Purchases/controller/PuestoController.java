@@ -28,7 +28,7 @@ public class PuestoController {
 	
 	
 	@GetMapping()
-	public ResponseEntity<List<Puesto>> getTipoHorario() {
+	public ResponseEntity<List<Puesto>> getAll() {
 
 		List<Puesto> puestos = new ArrayList<Puesto>();
 		try {
