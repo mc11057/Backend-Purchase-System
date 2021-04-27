@@ -47,6 +47,19 @@ public class CategoriaEmpleado {
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
+	
+	@Column(nullable = false, length = 1)
+	private String estado;
+	
+	
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 	public Long getCatEmpleadoId() {
 		return catEmpleadoId;
@@ -56,13 +69,6 @@ public class CategoriaEmpleado {
 		this.catEmpleadoId = catEmpleadoId;
 	}
 
-	public List<Empleado> getEmpleados() {
-		return empleados;
-	}
-
-	public void setEmpleados(List<Empleado> empleados) {
-		this.empleados = empleados;
-	}
 
 	public String getTipo() {
 		return tipo;

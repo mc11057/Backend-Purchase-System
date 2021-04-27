@@ -53,6 +53,9 @@ public class Puesto {
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
+	
+	@Column(nullable = false, length = 1)
+	private String estado;
 
 	public Long getPuestoId() {
 		return puestoId;
@@ -62,12 +65,13 @@ public class Puesto {
 		this.puestoId = puestoId;
 	}
 
-	public List<Empleado> getEmpleados() {
-		return empleados;
+
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setEmpleados(List<Empleado> empleados) {
-		this.empleados = empleados;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public String getNombre() {

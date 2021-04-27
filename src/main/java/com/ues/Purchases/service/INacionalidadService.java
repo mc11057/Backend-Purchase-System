@@ -10,5 +10,7 @@ public interface INacionalidadService {
 	 List<Nacionalidad> findAll() throws Exception ;
 
 	 Nacionalidad findById(Long id) throws Exception;
+	 
+	 List<Nacionalidad> obtenerActivos() throws Exception;
 
 }

@@ -9,4 +9,6 @@ public interface ICategoriaEmpleadoService {
 	 List<CategoriaEmpleado> findAll () throws Exception ;
 
 	 CategoriaEmpleado findById(Long id) throws Exception;
+	 
+	 List<CategoriaEmpleado> obtenerActivos() throws Exception;
 }

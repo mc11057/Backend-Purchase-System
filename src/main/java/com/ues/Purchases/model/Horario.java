@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +16,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Horario {
@@ -55,6 +52,10 @@ public class Horario {
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
+	
+	@Column(nullable = false, length = 1)
+	private String estado;
+	
 
 	@ManyToOne
 	@JoinColumn(name = "tipo_horario_id", nullable = false )
@@ -65,6 +66,16 @@ public class Horario {
 	
 	@OneToMany(mappedBy = "horarioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
+
+	
+	
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 	public Long getHorarioId() {
 		return horarioId;

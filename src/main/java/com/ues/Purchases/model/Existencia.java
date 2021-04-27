@@ -1,40 +1,38 @@
 package com.ues.Purchases.model;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Estado {
+public class Existencia {
+	
+	@OneToOne
+	@JoinColumn(name = "producto_id", nullable = false )
+	private Producto productoId;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_seq")
-	@SequenceGenerator(name = "estado_seq", sequenceName = "Estado_seq", allocationSize = 1)
-	@Column(name = "estado_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long estadoId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "existencia_seq")
+	@SequenceGenerator(name = "existencia_seq", sequenceName = "Existencia_seq", allocationSize = 1)
+	@Column(name = "existencia_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long existenciaId;
 
-	@Column(name = "nombre", unique = true, nullable = false, length = 100)
-	private String nombre;
+	@Column(name = "cantidad", nullable = false)
+	private int cantidad;
 
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -46,46 +44,26 @@ public class Estado {
 	@Column(name = "update_date", nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
-	
-	@Column(nullable = false, length = 1)
-	private String estado;
-	
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
-	@ManyToOne
-	@JoinColumn(name = "pais_id", nullable = false )
-	private Pais paisId;
-		
-	@OneToMany(mappedBy = "estadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Departamento.class )
-	@JsonIgnore
-	private List<Departamento> departamentos;
-	
-
-	
-	public Long getEstadoId() {
-		return estadoId;
+	@Column(nullable = false, length = 1)
+	private String estado;
+	public Long getExistenciaId() {
+		return existenciaId;
 	}
 
-	public void setEstadoId(Long estadoId) {
-		this.estadoId = estadoId;
+	public void setExistenciaId(Long existenciaId) {
+		this.existenciaId = existenciaId;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public int getCantidad() {
+		return cantidad;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public Date getCreateDate() {
@@ -120,9 +98,19 @@ public class Estado {
 		this.userUpdate = userUpdate;
 	}
 
-	public Long getPaisId() {
-		return paisId.paisId;
+	public String getEstado() {
+		return estado;
 	}
 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public Long getProductoId() {
+		return productoId.productoId;
+	}
 	
+	
+	
+
 }

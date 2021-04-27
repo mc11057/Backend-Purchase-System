@@ -10,5 +10,8 @@ public interface ITipoIdentificacionService {
 	 List<TipoIdentificacion> findAll() throws Exception ;
 
 	 TipoIdentificacion findById(Long id) throws Exception;
+	 
+	 List<TipoIdentificacion> obtenerActivos() throws Exception;
+
 
 }
