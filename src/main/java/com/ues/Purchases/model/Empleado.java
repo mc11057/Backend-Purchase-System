@@ -54,35 +54,38 @@ public class Empleado {
 	Puesto puestoId;
 	
 	@Column(name = "primer_nombre",  nullable = false, length = 100)
-	private String primer_nombre;
+	private String primerNombre;
 	
 	@Column(name = "segundo_nombre", length = 100)
-	private String segundo_nombre;
+	private String segundoNombre;
 	
 	@Column(name = "primer_apellido",  nullable = false, length = 100)
-	private String primer_apellido;
+	private String primerApellido;
 	
 	@Column(name = "segundo_apellido",  length = 100)
-	private String segundo_apellido;
+	private String segundoApellido;
 	
+	@Column(name = "fecha_nacimiento", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date fecha_nacimiento;
+	private Date fechaNacimiento;
 	
+	@Column(name = "fecha_contratacion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date fecha_contratacion;
+	private Date fechaContratacion;
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
 
 	
+	@Column(name = "fecha_fin_contrato", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date fecha_fin_contrato;
+	private Date fechaFinContrato;
 	
 	@Column(name="activo", length=1, columnDefinition="CHAR")
 	private char activo;
 	
 	@Column(name = "numero_telefono",  length = 100)
-	private String numero_telefono;
+	private String numeroTelefono;
 	
 	@Column(name = "email",  length = 100)
 	private String email;
@@ -108,6 +111,54 @@ public class Empleado {
 	
 	
 	
+	public String getPrimerNombre() {
+		return primerNombre;
+	}
+	public void setPrimerNombre(String primerNombre) {
+		this.primerNombre = primerNombre;
+	}
+	public String getSegundoNombre() {
+		return segundoNombre;
+	}
+	public void setSegundoNombre(String segundoNombre) {
+		this.segundoNombre = segundoNombre;
+	}
+	public String getPrimerApellido() {
+		return primerApellido;
+	}
+	public void setPrimerApellido(String primerApellido) {
+		this.primerApellido = primerApellido;
+	}
+	public String getSegundoApellido() {
+		return segundoApellido;
+	}
+	public void setSegundoApellido(String segundoApellido) {
+		this.segundoApellido = segundoApellido;
+	}
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public Date getFechaContratacion() {
+		return fechaContratacion;
+	}
+	public void setFechaContratacion(Date fechaContratacion) {
+		this.fechaContratacion = fechaContratacion;
+	}
+	public Date getFechaFinContrato() {
+		return fechaFinContrato;
+	}
+	public void setFechaFinContrato(Date fechaFinContrato) {
+		this.fechaFinContrato = fechaFinContrato;
+	}
+	public String getNumeroTelefono() {
+		return numeroTelefono;
+	}
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
+	}
 	public Long getSucursalId() 
 	{
 		return sucursalId.sucursalId;
@@ -135,60 +186,14 @@ public class Empleado {
 		this.empleadoId = empleadoId;
 	}
 
-	public String getPrimer_nombre() {
-		return primer_nombre;
-	}
-	public void setPrimer_nombre(String primer_nombre) {
-		this.primer_nombre = primer_nombre;
-	}
-	public String getSegundo_nombre() {
-		return segundo_nombre;
-	}
-	public void setSegundo_nombre(String segundo_nombre) {
-		this.segundo_nombre = segundo_nombre;
-	}
-	public String getPrimer_apellido() {
-		return primer_apellido;
-	}
-	public void setPrimer_apellido(String primer_apellido) {
-		this.primer_apellido = primer_apellido;
-	}
-	public String getSegundo_apellido() {
-		return segundo_apellido;
-	}
-	public void setSegundo_apellido(String segundo_apellido) {
-		this.segundo_apellido = segundo_apellido;
-	}
-	public Date getFecha_nacimiento() {
-		return fecha_nacimiento;
-	}
-	public void setFecha_nacimiento(Date fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
-	}
-	public Date getFecha_contratacion() {
-		return fecha_contratacion;
-	}
-	public void setFecha_contratacion(Date fecha_contratacion) {
-		this.fecha_contratacion = fecha_contratacion;
-	}
-	public Date getFecha_fin_contrato() {
-		return fecha_fin_contrato;
-	}
-	public void setFecha_fin_contrato(Date fecha_fin_contrato) {
-		this.fecha_fin_contrato = fecha_fin_contrato;
-	}
+
 	public char getActivo() {
 		return activo;
 	}
 	public void setActivo(char activo) {
 		this.activo = activo;
 	}
-	public String getNumero_telefono() {
-		return numero_telefono;
-	}
-	public void setNumero_telefono(String numero_telefono) {
-		this.numero_telefono = numero_telefono;
-	}
+
 	public String getEmail() {
 		return email;
 	}

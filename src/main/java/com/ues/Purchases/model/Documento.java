@@ -36,11 +36,13 @@ public class Documento {
 	@Column(name = "numero",  nullable = false, length = 25)
 	private String numero;
 	
+	@Column(name = "fecha_expedicion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date fecha_expedicion;
+	private Date fechaExpedicion;
 	
+	@Column(name = "fecha_vencimiento", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date fecha_vencimiento;
+	private Date fechaVencimiento;
 	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -84,17 +86,17 @@ public class Documento {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	public Date getFecha_expedicion() {
-		return fecha_expedicion;
+	public Date getFechaExpedicion() {
+		return fechaExpedicion;
 	}
-	public void setFecha_expedicion(Date fecha_expedicion) {
-		this.fecha_expedicion = fecha_expedicion;
+	public void setFechaExpedicion(Date fechaExpedicion) {
+		this.fechaExpedicion = fechaExpedicion;
 	}
-	public Date getFecha_vencimiento() {
-		return fecha_vencimiento;
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
 	}
-	public void setFecha_vencimiento(Date fecha_vencimiento) {
-		this.fecha_vencimiento = fecha_vencimiento;
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
 	}
 	public Date getCreateDate() {
 		return createDate;
