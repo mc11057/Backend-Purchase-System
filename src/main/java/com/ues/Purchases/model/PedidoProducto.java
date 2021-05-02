@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class PedidoProducto {
 
 	@EmbeddedId
+	@JsonIgnore
 	PedidoProductoKey id;
 
 	@ManyToOne
@@ -26,7 +27,6 @@ public class PedidoProducto {
 	@ManyToOne
 	@MapsId("productoId")
 	@JoinColumn(name = "producto_id")
-	@JsonIgnore
 	Producto producto;
 	
 	@Column(name = "cantidad",  nullable = false)
