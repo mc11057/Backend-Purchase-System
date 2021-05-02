@@ -1,5 +1,6 @@
 package com.ues.Purchases.model;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,12 +22,15 @@ public class PedidoProducto {
 	@JoinColumn(name = "pedido_id")
 	@JsonIgnore
 	Pedido pedido;
-
+	
 	@ManyToOne
-	@MapsId("ProductoId")
+	@MapsId("productoId")
 	@JoinColumn(name = "producto_id")
 	@JsonIgnore
 	Producto producto;
+	
+	@Column(name = "cantidad",  nullable = false)
+	private int cantidad;
 
 	public PedidoProductoKey getId() {
 		return id;
@@ -50,6 +54,15 @@ public class PedidoProducto {
 
 	public void setProducto(Producto producto) {
 		this.producto = producto;
+	}
+	
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	@Override

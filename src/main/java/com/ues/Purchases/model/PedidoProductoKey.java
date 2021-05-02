@@ -11,7 +11,11 @@ public class PedidoProductoKey implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6342105763814218549L;
+	private static final long serialVersionUID = 1101304394574547767L;
+
+	/**
+	 * 
+	 */
 	
 	@Column(name = "pedido_id")
 	Long pedidoId;

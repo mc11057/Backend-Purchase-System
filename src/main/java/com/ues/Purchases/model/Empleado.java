@@ -27,7 +27,7 @@ public class Empleado {
 	Long empleadoId;
 	
 	
-	@OneToMany(mappedBy = "empleadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
+	@OneToMany(mappedBy = "empleado", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
 	private List<Pedido> pedidos;
 	
 	@ManyToOne
@@ -77,7 +77,7 @@ public class Empleado {
 	private String estado;
 
 	
-	@Column(name = "fecha_fin_contrato", nullable = false)
+	@Column(name = "fecha_fin_contrato", nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date fechaFinContrato;
 	

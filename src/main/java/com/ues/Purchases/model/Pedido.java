@@ -31,17 +31,19 @@ public class Pedido {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
+	
+
 	@OneToMany(mappedBy = "pedido")
 	@JsonIgnore
-	Set<PedidoProducto> pedidos;
+	Set<PedidoProducto> productos;
 	
 	
-	public Set<PedidoProducto> getPedidos() {
-		return pedidos;
+	public Set<PedidoProducto> getProductos() {
+		return productos;
 	}
 
-	public void setPedidos(Set<PedidoProducto> pedidos) {
-		this.pedidos = pedidos;
+	public void setProductos(Set<PedidoProducto> productos) {
+		this.productos = productos;
 	}
 
 	@PrePersist
@@ -64,11 +66,11 @@ public class Pedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "proPedi_id", nullable = false )
-	private ProgresoPedido progresoPedidoId;
+	private ProgresoPedido progresoPedido;
 	
 	@ManyToOne
 	@JoinColumn(name = "empleado_id", nullable = false )
-	private Empleado empleadoId;
+	private Empleado empleado;
 
 	public Long getPedidoId() {
 		return pedidoId;
@@ -118,12 +120,18 @@ public class Pedido {
 		this.estado = estado;
 	}
 
-	public Long getProgresoPedidoId() {
-		return progresoPedidoId.progresoPedidoId;
+
+
+	public ProgresoPedido getProgresoPedido() {
+		return progresoPedido;
 	}
 
-	public Long getEmpleadoId() {
-		return empleadoId.empleadoId;
+	public void setProgresoPedido(ProgresoPedido progresoPedido) {
+		this.progresoPedido = progresoPedido;
+	}
+
+	public Empleado getEmpleado() {
+		return empleado;
 	}
 	
 	

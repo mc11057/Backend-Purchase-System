@@ -14,6 +14,12 @@ public class EmpleadoServiceImpl implements IEmpleadoService{
 	
 	@Autowired
 	private IEmpleadoRepository empleadoRepository; 
+	
+	public EmpleadoServiceImpl(IEmpleadoRepository empleadoRepository) {
+		super();
+		this.empleadoRepository = empleadoRepository;
+	}
+	
 	@Override
 	public List<Empleado> findAll() throws Exception {
 		return (List<Empleado>)empleadoRepository.findAll();

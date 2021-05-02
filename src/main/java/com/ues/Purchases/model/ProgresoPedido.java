@@ -49,7 +49,7 @@ public class ProgresoPedido {
 	@Column(nullable = false, length = 1)
 	private String estado;
 	
-	@OneToMany(mappedBy = "progresoPedidoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
+	@OneToMany(mappedBy = "progresoPedido", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
 	private List<Pedido> pedidos;
 	
 

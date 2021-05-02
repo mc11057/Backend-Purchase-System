@@ -23,11 +23,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Producto {
 	
 	@OneToOne
-	@JoinColumn(name = "existencia_id", nullable = false )
+	@JoinColumn(name = "existencia_id", nullable = true )
 	private Existencia existenciaId;
 	
 	@OneToOne
-	@JoinColumn(name = "vencProd_id", nullable = false )
+	@JoinColumn(name = "vencProd_id", nullable = true )
 	private VencimientoProducto vencimientoProductoId;
 	
 	@ManyToOne
@@ -42,7 +42,7 @@ public class Producto {
 	
 	@OneToMany(mappedBy = "producto")
 	@JsonIgnore
-	Set<PedidoProducto> producto;
+	Set<PedidoProducto> pedidos;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;
@@ -79,12 +79,12 @@ public class Producto {
 		return categoriaProductoId.categoriaProductoId;
 	}
 
-	public Set<PedidoProducto> getProducto() {
-		return producto;
+	public Set<PedidoProducto> getPedidos() {
+		return pedidos;
 	}
 
-	public void setProducto(Set<PedidoProducto> producto) {
-		this.producto = producto;
+	public void setProducto(Set<PedidoProducto> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	public Long getProductoId() {
