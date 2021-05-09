@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class CategoriaProducto {
 	
-	@OneToMany(mappedBy = "categoriaProductoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Producto.class)
+	@OneToMany(mappedBy = "categoriaProducto", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Producto.class)
 	private List<Producto> productos;
 	
 	@Id

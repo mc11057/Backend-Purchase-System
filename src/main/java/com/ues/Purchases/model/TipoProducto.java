@@ -49,7 +49,7 @@ public class TipoProducto {
 	@Column(nullable = false, length = 1)
 	private String estado;
 	
-	@OneToMany(mappedBy = "tipoProductoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Producto.class)
+	@OneToMany(mappedBy = "tipoProducto", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Producto.class)
 	private List<Producto> productos;
 
 	public Long getTipoProductoId() {

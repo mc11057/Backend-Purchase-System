@@ -25,7 +25,7 @@ public class Puesto {
 	@Column(name = "puesto_id", unique = true, nullable = false, precision = 15, scale = 0)
 	Long puestoId;
 	
-	@OneToMany(mappedBy = "puestoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	@OneToMany(mappedBy = "puesto", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
 	
 	

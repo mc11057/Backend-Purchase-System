@@ -24,7 +24,7 @@ public class ProgresoPedido {
 	@Column(name = "proPedi_id", unique = true, nullable = false, precision = 15, scale = 0)
 	Long progresoPedidoId;
 	
-	@Column(name = "estado_pedido",  nullable = false, length = 25)
+	@Column(name = "estado_pedido",  nullable = false, length = 25,unique = true)
 	private String estadoPedido;
 	
 	@Column(name = "create_date", nullable = false)
@@ -49,9 +49,7 @@ public class ProgresoPedido {
 	@Column(nullable = false, length = 1)
 	private String estado;
 	
-	@OneToMany(mappedBy = "progresoPedido", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pedido.class)
-	private List<Pedido> pedidos;
-	
+
 
 	public Long getProgresoPedidoId() {
 		return progresoPedidoId;

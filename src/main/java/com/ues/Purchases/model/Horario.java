@@ -64,7 +64,7 @@ public class Horario {
 	@OneToMany(mappedBy = "horarioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Sucursal.class)
 	private List<Sucursal> sucursales;
 	
-	@OneToMany(mappedBy = "horarioId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	@OneToMany(mappedBy = "horario", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
 
 	

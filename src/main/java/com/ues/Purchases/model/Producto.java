@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -22,17 +21,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Producto {
 	
-	@OneToOne
-	@JoinColumn(name = "existencia_id", nullable = true )
-	private Existencia existenciaId;
-	
-	@OneToOne
-	@JoinColumn(name = "vencProd_id", nullable = true )
-	private VencimientoProducto vencimientoProductoId;
-	
 	@ManyToOne
 	@JoinColumn(name = "catProd_id", nullable = false )
-	private CategoriaProducto categoriaProductoId;
+	private CategoriaProducto categoriaProducto;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "producto_seq")
@@ -71,12 +62,17 @@ public class Producto {
 	
 	@ManyToOne
 	@JoinColumn(name = "tipoProd_id", nullable = false )
-	private TipoProducto tipoProductoId;
+	private TipoProducto tipoProducto;
 	
 	
 	
-	public Long getCategoriaProductoId() {
-		return categoriaProductoId.categoriaProductoId;
+
+	public CategoriaProducto getCategoriaProducto() {
+		return categoriaProducto;
+	}
+
+	public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
+		this.categoriaProducto = categoriaProducto;
 	}
 
 	public Set<PedidoProducto> getPedidos() {
@@ -143,17 +139,15 @@ public class Producto {
 		this.estado = estado;
 	}
 
-	public Long getTiporoductoId() {
-		return tipoProductoId.tipoProductoId;
+	public TipoProducto getTipoProducto() {
+		return tipoProducto;
 	}
 
-	public Long getExistenciaId() {
-		return existenciaId.existenciaId;
+	public void setTipoProducto(TipoProducto tipoProducto) {
+		this.tipoProducto = tipoProducto;
 	}
 
-	public Long getVencimientoProductoId() {
-		return vencimientoProductoId.vencimientoProductoId;
-	}
+	
 
 	
 	

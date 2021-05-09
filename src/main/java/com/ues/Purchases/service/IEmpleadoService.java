@@ -10,5 +10,6 @@ public interface IEmpleadoService {
 	 List<Empleado> findAll() throws Exception ;
 
 	 Empleado findById(Long id) throws Exception;
+	 Empleado findByApplicationUser(Long id) throws Exception;
 
 }

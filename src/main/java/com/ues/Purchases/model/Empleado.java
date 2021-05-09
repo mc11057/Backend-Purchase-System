@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -32,26 +33,26 @@ public class Empleado {
 	
 	@ManyToOne
 	@JoinColumn(name = "sucursal_id", nullable = false )
-	Sucursal sucursalId;
+	Sucursal sucursal;
 	
 	@ManyToOne
 	@JoinColumn(name = "horario_id", nullable = false )
-	Horario horarioId;
+	Horario horario;
 	
 	@ManyToOne
 	@JoinColumn(name = "nacionalidad_id", nullable = false )
-	Nacionalidad nacionalidadId;
+	Nacionalidad nacionalidad;
 	
 	@OneToMany(mappedBy = "empleadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Documento.class)
 	private List<Documento> documentos;
 	
 	@ManyToOne
 	@JoinColumn(name = "cat_empleado_id", nullable = false )
-	CategoriaEmpleado categoriaEmpleadoId;
+	CategoriaEmpleado categoriaEmpleado;
 	
 	@ManyToOne
 	@JoinColumn(name = "puesto_id", nullable = false )
-	Puesto puestoId;
+	Puesto puesto;
 	
 	@Column(name = "primer_nombre",  nullable = false, length = 100)
 	private String primerNombre;
@@ -109,8 +110,12 @@ public class Empleado {
 	@Column(name = "user_update", nullable = true, length = 100)
 	private String userUpdate;
 	
+	@OneToOne(optional = false)
+	private ApplicationUser user;
 	
-	
+	public Empleado() {
+		super();
+	}
 	public String getPrimerNombre() {
 		return primerNombre;
 	}
@@ -159,26 +164,8 @@ public class Empleado {
 	public void setNumeroTelefono(String numeroTelefono) {
 		this.numeroTelefono = numeroTelefono;
 	}
-	public Long getSucursalId() 
-	{
-		return sucursalId.sucursalId;
-	}
-	public Long getHorarioId() 
-	{
-		return horarioId.horarioId;
-	}
-	public Long getNacionalidadId() 
-	{
-		return nacionalidadId.nacionalidadId;
-	}
-	public Long getCategoriaEmpleadoId() 
-	{
-		return categoriaEmpleadoId.catEmpleadoId;
-	}
-	public Long getPuestoId() 
-	{
-		return puestoId.puestoId;
-	}
+
+
 	public Long getEmpleadoId() {
 		return empleadoId;
 	}
@@ -206,9 +193,7 @@ public class Empleado {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public String getUserCreate() {
-		return userCreate;
-	}
+
 	public void setUserCreate(String userCreate) {
 		this.userCreate = userCreate;
 	}
@@ -224,20 +209,18 @@ public class Empleado {
 	public void setUserUpdate(String userUpdate) {
 		this.userUpdate = userUpdate;
 	}
-	public void setSucursalId(Sucursal sucursalId) {
-		this.sucursalId = sucursalId;
+
+	public void setHorario(Horario horario) {
+		this.horario = horario;
 	}
-	public void setHorarioId(Horario horarioId) {
-		this.horarioId = horarioId;
+	public void setNacionalidad(Nacionalidad nacionalidad) {
+		this.nacionalidad = nacionalidad;
 	}
-	public void setNacionalidadId(Nacionalidad nacionalidadId) {
-		this.nacionalidadId = nacionalidadId;
+	public void setCategoriaEmpleado(CategoriaEmpleado categoriaEmpleado) {
+		this.categoriaEmpleado = categoriaEmpleado;
 	}
-	public void setCategoriaEmpleadoId(CategoriaEmpleado categoriaEmpleadoId) {
-		this.categoriaEmpleadoId = categoriaEmpleadoId;
-	}
-	public void setPuestoId(Puesto puestoId) {
-		this.puestoId = puestoId;
+	public void setPuesto(Puesto puesto) {
+		this.puesto = puesto;
 	}
 	public String getEstado() {
 		return estado;
@@ -245,6 +228,17 @@ public class Empleado {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	public ApplicationUser getUser() {
+		return user;
+	}
+	public void setUser(ApplicationUser user) {
+		this.user = user;
+	}
+
+	public void setSucursal(Sucursal sucursal) {
+		this.sucursal = sucursal;
+	}
+	
 	
 	
 

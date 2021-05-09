@@ -3,6 +3,7 @@ package com.ues.Purchases.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido {
@@ -34,8 +33,7 @@ public class Pedido {
 	
 
 	@OneToMany(mappedBy = "pedido")
-	@JsonIgnore
-	Set<PedidoProducto> productos;
+	public Set<PedidoProducto> productos;
 	
 	
 	public Set<PedidoProducto> getProductos() {

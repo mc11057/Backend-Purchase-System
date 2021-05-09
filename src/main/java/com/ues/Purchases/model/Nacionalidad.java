@@ -23,7 +23,7 @@ public class Nacionalidad {
 	@Column(name = "nacionalidad_id", unique = true, nullable = false, precision = 15, scale = 0)
 	Long nacionalidadId;
 	
-	@OneToMany(mappedBy = "nacionalidadId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	@OneToMany(mappedBy = "nacionalidad", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
 	
 	@Column(name = "nombre",  nullable = false, length = 100)

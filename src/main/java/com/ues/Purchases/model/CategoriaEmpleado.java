@@ -23,7 +23,7 @@ public class CategoriaEmpleado {
 	@Column(name = "categoria_empleado_id", unique = true, nullable = false, precision = 15, scale = 0)
 	Long catEmpleadoId;
 	
-	@OneToMany(mappedBy = "categoriaEmpleadoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	@OneToMany(mappedBy = "categoriaEmpleado", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
 	
 	@Column(name = "tipo",  nullable = false, length = 100)

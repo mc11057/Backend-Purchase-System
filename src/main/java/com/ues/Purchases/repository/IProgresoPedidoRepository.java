@@ -12,5 +12,6 @@ public interface IProgresoPedidoRepository extends JpaRepository<ProgresoPedido,
 	
 	@Query(value = "SELECT * FROM progreso_pedido WHERE estado='A'", nativeQuery=true)
     List<ProgresoPedido> obtenerActivos();
+	ProgresoPedido findByEstadoPedido(String estado);
 
 }

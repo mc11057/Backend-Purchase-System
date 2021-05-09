@@ -77,7 +77,6 @@ insert into sucursal(sucursal_id, nombre, user_create,create_date,horario_id,ubi
 
 --- insert progreso_pedido
 insert into progreso_pedido(pro_pedi_id, estado_pedido, user_create,create_date,estado) values (prog_pedi_seq.nextval,'Activo', 'ADMIN', to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),'A');
-insert into progreso_pedido(pro_pedi_id, estado_pedido, user_create,create_date,estado) values (prog_pedi_seq.nextval,'Activo', 'ADMIN', to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),'A');
 insert into progreso_pedido(pro_pedi_id, estado_pedido, user_create,create_date,estado) values (prog_pedi_seq.nextval,'Cancelado', 'ADMIN', to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),'N');
 
 --- insert tipo_identificacion
@@ -99,23 +98,24 @@ insert into categoria_empleado(categoria_empleado_id, tipo, user_create,create_d
 insert into puesto (puesto_id,create_date,estado,nombre,salary,user_create) values (puesto_seq.nextval,sysdate,'A','JEFE DE SUCURSAL',200.00,'ADMIN');
 
 --insert into empleado
-insert into empleado(empleado_id,activo,horario_id,cat_empleado_id,nacionalidad_id,puesto_id,sucursal_id,primer_nombre,primer_apellido, user_create,create_date,estado,fecha_contratacion,fecha_nacimiento)values (empleado_seq.nextval,1,1,1,1,1,1,'Walter' ,'Quintanilla', 'ADMIN',to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),'A',sysdate,to_date('1992/05/03','yyyy/mm/dd'));
+insert into empleado(empleado_id,user_id,activo,horario_id,cat_empleado_id,nacionalidad_id,puesto_id,sucursal_id,primer_nombre,primer_apellido, user_create,create_date,estado,fecha_contratacion,fecha_nacimiento)values (empleado_seq.nextval,1,1,1,1,1,1,1,'Walter' ,'Quintanilla', 'ADMIN',to_date('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),'A',sysdate,to_date('1992/05/03','yyyy/mm/dd'));
 
 --insert into categoria_producto
 insert into categoria_producto (cat_prod_id,create_date,estado,nombre,user_create) values(cat_prod_seq.nextval,sysdate,'A','PERECEDERO','ADMIN');
+insert into categoria_producto (cat_prod_id,create_date,estado,nombre,user_create) values(cat_prod_seq.nextval,sysdate,'A','NO PERECEDERO','ADMIN');
 
 --insert into tipo_producto
 insert into tipo_producto (tipo_prod_id,create_date,estado,tipo,user_create) values (tipo_prod_seq.nextval,sysdate,'A','COMESTIBLE','ADMIN');
 
 --insert into producto
 insert into producto(producto_id,create_date,estado,nombre,user_create,cat_prod_id,tipo_prod_id)values (producto_seq.nextval,sysdate,'A','MANZANA','ADMIN',1,1);
+insert into producto(producto_id,create_date,estado,nombre,user_create,cat_prod_id,tipo_prod_id)values (producto_seq.nextval,sysdate,'A','AZUCAR','ADMIN',2,1);
 
 --insert into existencia
 insert into existencia(existencia_id,cantidad,create_date,estado,user_create,producto_id) values (existencia_seq.nextval,100,sysdate,'A','ADMIN',1);
 --insert into vencimiento_producto
 insert into vencimiento_producto(venc_prod_id,create_date,estado,fecha_vencimiento,user_create,producto_id) values (venc_prod_seq.nextval,sysdate,'A', to_date('2022/05/03', 'yyyy/mm/dd'),'ADMIN',1);
---update vencimiento and existencia in product
-update producto set existencia_id='1',venc_prod_id='1' where producto_id='1';
+
 --insert into pedido
 insert into pedido(pedido_id,create_date,estado,user_create,empleado_id,pro_pedi_id) values (pedido_seq.nextval,sysdate,'A','ADMIN',1,1);
 --insert into pedido_producto

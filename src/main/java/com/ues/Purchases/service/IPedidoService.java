@@ -10,5 +10,7 @@ public interface IPedidoService {
 	 List<Pedido> findAll() throws Exception ;
 
 	 Pedido findById(Long id) throws Exception;
+	 
+	 Pedido create(Pedido pedido) throws Exception;
 
 }

@@ -61,9 +61,11 @@ public class Sucursal {
 	@JoinColumn(name = "ubicacion_id", nullable = false )
 	private Ubicacion ubicacionId;
 	
-	@OneToMany(mappedBy = "sucursalId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
+	@OneToMany(mappedBy = "sucursal", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Empleado.class)
 	private List<Empleado> empleados;
-		
+	
+	
+	
 		
 
 	public String getEstado() {
@@ -131,6 +133,11 @@ public class Sucursal {
 	public Long getUbicacionId() {
 		return ubicacionId.UbicacionId;
 	}
+
+	public Sucursal() {
+		super();
+	}
+	
 
 	
 	
