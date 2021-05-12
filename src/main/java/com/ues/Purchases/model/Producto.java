@@ -34,6 +34,10 @@ public class Producto {
 	@OneToMany(mappedBy = "producto")
 	@JsonIgnore
 	Set<PedidoProducto> pedidos;
+	
+	@OneToMany(mappedBy = "producto")
+	@JsonIgnore
+	Set<ProductoProveedor> proveedores;
 
 	@Column(name = "nombre", unique = true, nullable = false, length = 100)
 	private String nombre;

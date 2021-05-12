@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,7 @@ public class PedidoController {
 
 		List<Pedido> pedidos = new ArrayList<Pedido>();
 		try {
-			pedidos = (List<Pedido>) pedidoService.findAll();
+			pedidos = (List<Pedido>) pedidoService.obtenerPedidosActivos();
 			return new ResponseEntity<List<Pedido>>(pedidos, HttpStatus.OK);
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -71,4 +72,28 @@ public class PedidoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	@PutMapping("/aprobar/{pedidoId}")
+	public void aprobarpedido(@RequestBody long pedidoId) {
+		try {
+			pedidoService.aprobarPedido(pedidoId);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		System.out.print(pedidoId);
+		
+	}
+	
+	
+	@PutMapping("/denegar/")
+	public void denegarpedido(@RequestBody  Pedido pedido) {
+		try {
+			pedidoService.denegarPedido(pedido.getPedidoId());
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		System.out.print(pedido.getPedidoId());
+		
+	}
+	
 }

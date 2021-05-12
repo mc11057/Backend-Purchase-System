@@ -18,35 +18,42 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Pedido {
+public class Proveedor {
 	
-	@OneToMany(mappedBy = "pedidoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.IngresoOrdenCompra.class)
-	private List<IngresoOrdenCompra> ordenesCompra;
+	@OneToMany(mappedBy = "proveedorId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.PedidoProveedor.class)
+	private List<PedidoProveedor> pedidosProveedores;
+	
+	@OneToMany(mappedBy = "proveedor")
+	@JsonIgnore
+	Set<ProductoProveedor> producto;
+	
+	public Set<ProductoProveedor> getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Set<ProductoProveedor> producto) {
+		this.producto = producto;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "tipoProv_id", nullable = false )
+	private TipoProveedor tipoProveedorId;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_seq")
-	@SequenceGenerator(name = "pedido_seq", sequenceName = "Pedido_seq", allocationSize = 1)
-	@Column(name = "pedido_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long pedidoId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prove_seq")
+	@SequenceGenerator(name = "prove_seq", sequenceName = "Prove_seq", allocationSize = 1)
+	@Column(name = "proveedor_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long proveedorId;
+	
+	@Column(name = "nombre",  nullable = false, length = 240)
+	private String nombre;
 	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
-	
-
-	@OneToMany(mappedBy = "pedido")
-	public Set<PedidoProducto> productos;
-	
-	
-	public Set<PedidoProducto> getProductos() {
-		return productos;
-	}
-
-	public void setProductos(Set<PedidoProducto> productos) {
-		this.productos = productos;
-	}
 
 	@PrePersist
 	public void prePersist() {
@@ -65,21 +72,29 @@ public class Pedido {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
-	
-	@ManyToOne
-	@JoinColumn(name = "proPedi_id", nullable = false )
-	private ProgresoPedido progresoPedido;
-	
-	@ManyToOne
-	@JoinColumn(name = "empleado_id", nullable = false )
-	private Empleado empleado;
 
-	public Long getPedidoId() {
-		return pedidoId;
+	public TipoProveedor getTipoProveedorId() {
+		return tipoProveedorId;
 	}
 
-	public void setPedidoId(Long pedidoId) {
-		this.pedidoId = pedidoId;
+	public void setTipoProveedorId(TipoProveedor tipoProveedorId) {
+		this.tipoProveedorId = tipoProveedorId;
+	}
+
+	public Long getProveedorId() {
+		return proveedorId;
+	}
+
+	public void setProveedorId(Long proveedorId) {
+		this.proveedorId = proveedorId;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Date getCreateDate() {
@@ -121,20 +136,7 @@ public class Pedido {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-
-
-	public ProgresoPedido getProgresoPedido() {
-		return progresoPedido;
-	}
-
-	public void setProgresoPedido(ProgresoPedido progresoPedido) {
-		this.progresoPedido = progresoPedido;
-	}
-
-	public Empleado getEmpleado() {
-		return empleado;
-	}
+	
 	
 	
 

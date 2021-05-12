@@ -2,7 +2,6 @@ package com.ues.Purchases.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,35 +18,24 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Pedido {
+public class IngresoOrdenCompra {
 	
-	@OneToMany(mappedBy = "pedidoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.IngresoOrdenCompra.class)
-	private List<IngresoOrdenCompra> ordenesCompra;
+	@OneToMany(mappedBy = "ordenCompraId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.PedidoProveedor.class)
+	private List<PedidoProveedor> pedidosProveedores;
+	
+	@ManyToOne
+	@JoinColumn(name = "pedido_id", nullable = false )
+	private Pedido pedidoId;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_seq")
-	@SequenceGenerator(name = "pedido_seq", sequenceName = "Pedido_seq", allocationSize = 1)
-	@Column(name = "pedido_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long pedidoId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ing_orden_compra_seq")
+	@SequenceGenerator(name = "ing_orden_compra_seq", sequenceName = "Ing_orden_compra_seq", allocationSize = 1)
+	@Column(name = "orden_compra_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long ordenCompraId;
 	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
-	
-
-	@OneToMany(mappedBy = "pedido")
-	public Set<PedidoProducto> productos;
-	
-	
-	public Set<PedidoProducto> getProductos() {
-		return productos;
-	}
-
-	public void setProductos(Set<PedidoProducto> productos) {
-		this.productos = productos;
-	}
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -65,21 +53,20 @@ public class Pedido {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
-	
-	@ManyToOne
-	@JoinColumn(name = "proPedi_id", nullable = false )
-	private ProgresoPedido progresoPedido;
-	
-	@ManyToOne
-	@JoinColumn(name = "empleado_id", nullable = false )
-	private Empleado empleado;
-
-	public Long getPedidoId() {
+	public Pedido getPedidoId() {
 		return pedidoId;
 	}
 
-	public void setPedidoId(Long pedidoId) {
+	public void setPedidoId(Pedido pedidoId) {
 		this.pedidoId = pedidoId;
+	}
+
+	public Long getOrdenCompraId() {
+		return ordenCompraId;
+	}
+
+	public void setOrdenCompraId(Long ordenCompraId) {
+		this.ordenCompraId = ordenCompraId;
 	}
 
 	public Date getCreateDate() {
@@ -121,20 +108,7 @@ public class Pedido {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-
-
-	public ProgresoPedido getProgresoPedido() {
-		return progresoPedido;
-	}
-
-	public void setProgresoPedido(ProgresoPedido progresoPedido) {
-		this.progresoPedido = progresoPedido;
-	}
-
-	public Empleado getEmpleado() {
-		return empleado;
-	}
+	
 	
 	
 
