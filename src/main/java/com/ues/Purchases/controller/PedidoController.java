@@ -74,25 +74,35 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/aprobar/{pedidoId}")
-	public void aprobarpedido(@RequestBody long pedidoId) {
+	public ResponseEntity<?> aprobarpedido(@RequestBody long pedidoId) {
+		
+		String usuario = "USER";
+		
+		
 		try {
-			pedidoService.aprobarPedido(pedidoId);
+			pedidoService.aprobarPedido(pedidoId,usuario);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (NotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
-			e.getMessage();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		System.out.print(pedidoId);
 		
 	}
 	
 	
 	@PutMapping("/denegar/")
-	public void denegarpedido(@RequestBody  Pedido pedido) {
+	public ResponseEntity<?> denegarpedido(@RequestBody long pedidoId) {
+		
+		String usuario = "USER";
 		try {
-			pedidoService.denegarPedido(pedido.getPedidoId());
+			pedidoService.denegarPedido(pedidoId,usuario);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (NotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} catch (Exception e) {
-			e.getMessage();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		System.out.print(pedido.getPedidoId());
 		
 	}
 	

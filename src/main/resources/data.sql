@@ -112,6 +112,8 @@ insert into tipo_producto (tipo_prod_id,create_date,estado,tipo,user_create) val
 --insert into producto
 insert into producto(producto_id,create_date,estado,nombre,user_create,cat_prod_id,tipo_prod_id)values (producto_seq.nextval,sysdate,'A','MANZANA','ADMIN',1,1);
 insert into producto(producto_id,create_date,estado,nombre,user_create,cat_prod_id,tipo_prod_id)values (producto_seq.nextval,sysdate,'A','AZUCAR','ADMIN',2,1);
+insert into producto(producto_id,create_date,estado,nombre,user_create,cat_prod_id,tipo_prod_id)values (producto_seq.nextval,sysdate,'A','FRIJOLES','ADMIN',2,1);
+
 
 --insert into existencia
 insert into existencia(existencia_id,cantidad,create_date,estado,user_create,producto_id) values (existencia_seq.nextval,100,sysdate,'A','ADMIN',1);
@@ -135,4 +137,8 @@ insert into proveedor (proveedor_id,create_date,nombre,estado,user_create,tipo_p
 
 --insert into producto_proveedor
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,1,30.0);
-insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,2,20.0);
+insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,2,70.0);
+insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,1,35.0);
+insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,2,28.0);
+insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,3,10.0);
+insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,3,10.0);
