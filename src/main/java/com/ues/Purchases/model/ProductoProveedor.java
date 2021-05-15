@@ -1,5 +1,7 @@
 package com.ues.Purchases.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -8,20 +10,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "producto_proveedor")
 public class ProductoProveedor {
 	
 	@EmbeddedId
-	@JsonIgnore
 	ProductoProveedorKey id;
 
 	@ManyToOne
 	@MapsId("proveerdorId")
 	@JoinColumn(name = "proveedor_id")
-	@JsonIgnore
 	Proveedor proveedor;
 	
 	@ManyToOne
@@ -30,7 +28,7 @@ public class ProductoProveedor {
 	Producto producto;
 
 	@Column(name = "precio",  nullable = false)
-	private double precio;
+	private BigDecimal precio;
 
 	public ProductoProveedorKey getId() {
 		return id;
@@ -56,14 +54,15 @@ public class ProductoProveedor {
 		this.producto = producto;
 	}
 
-	public double getPrecio() {
+	public BigDecimal getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
-	
+
+
 	
 	
 }

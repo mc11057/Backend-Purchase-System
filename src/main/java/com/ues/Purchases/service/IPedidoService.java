@@ -13,9 +13,9 @@ public interface IPedidoService {
 	 
 	 Pedido create(Pedido pedido) throws Exception;
 	 
-	  void aprobarPedido(long pedidoId,String usuario) throws Exception;
+	  void aprobarPedido(Pedido pedido) throws Exception;
 	 
-	 void denegarPedido(long pedidoId,String usuario) throws Exception;
+	 void denegarPedido(Pedido pedido) throws Exception;
 	 
 	 List<Pedido> obtenerPedidosActivos() throws Exception ;
 

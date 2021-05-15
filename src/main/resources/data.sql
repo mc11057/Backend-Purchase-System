@@ -142,3 +142,5 @@ insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,1,35.0
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,2,28.0);
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,3,10.0);
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,3,10.0);
+
+
