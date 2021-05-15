@@ -79,4 +79,24 @@ private void createLineItems(Pedido pedidoSaved,Pedido pedido) {
 }
 
 
+@Override
+public void aprobarPedido(long pedidoId,String usuario) throws Exception {
+	 this.pedidoRepository.aprobarPedido(pedidoId,usuario);
+}
+
+
+@Override
+public void denegarPedido(long pedidoId,String usuario) throws Exception {
+	this.pedidoRepository.denegarPedido(pedidoId,usuario);
+	
+}
+
+
+@Override
+public List<Pedido> obtenerPedidosActivos() throws Exception {
+	// TODO Auto-generated method stub
+	return  (List<Pedido>)pedidoRepository.obtenerPedidosActivos();
+}
+
+
 }
