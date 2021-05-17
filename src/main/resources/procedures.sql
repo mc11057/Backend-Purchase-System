@@ -1,4 +1,103 @@
-create or replace PROCEDURE denegar_pedido(ID_Pedido IN NUMBER, usuario IN VARCHAR2)
+CREATE OR REPLACE TRIGGER TRG_ACTUALIZA_MONTO
+    BEFORE INSERT
+    ON PROVEEDOR_PEDIDO_PRODUCTO
+    FOR EACH ROW
+declare
+    --VARIABLE PARA CALCULAR EL MONTO
+    v_MONTO_CALCULADO    NUMBER(19, 2);
+    --VARIABLE PARA OBTENER EL MONTO DE LA FACTURA
+    v_MONTO_FACTURA      NUMBER(19, 2);
+    v_CANTIDAD_PRODUCTOS NUMBER(19, 2);
+    v_VALOR_PRODUCTO     NUMBER(19, 2);
+BEGIN
+    --v_MONTO_CALCULADO := 10.5;
+
+    SELECT MONTO
+    INTO v_MONTO_FACTURA
+    FROM factura_orden_pago
+    WHERE pedi_prov_id IN (select PEDI_PROV_ID from PEDIDO_PROVEEDOR where PEDI_PROV_ID = :NEW.PEDI_PROV_ID);
+
+    SELECT cantidad
+    INTO v_CANTIDAD_PRODUCTOS
+    FROM pedido_producto
+    where PEDIDO_ID = :NEW.PEDIDO_ID
+      AND PRODUCTO_ID = :NEW.PRODUCTO_ID;
+
+    SELECT PRECIO
+    INTO v_VALOR_PRODUCTO
+    FROM PRODUCTO_PROVEEDOR
+    WHERE PRODUCTO_ID = : NEW.PRODUCTO_ID
+      AND PROVEEDOR_ID IN (SELECT PROVEEDOR_ID FROM PEDIDO_PROVEEDOR WHERE PEDI_PROV_ID = : NEW.PEDI_PROV_ID);
+
+    v_MONTO_CALCULADO := v_MONTO_FACTURA + (v_CANTIDAD_PRODUCTOS * v_VALOR_PRODUCTO);
+
+    UPDATE factura_orden_pago
+    SET Monto = v_MONTO_CALCULADO
+    where pedi_prov_id IN (select PEDI_PROV_ID from PEDIDO_PROVEEDOR where PEDI_PROV_ID = :NEW.PEDI_PROV_ID);
+
+end;
+/
+
+create or replace  procedure crear_pago(id_factura_orden_pago IN NUMBER, id_moneda in number,
+                                                      id_forma_pago IN NUMBER, usuario in varchar2,
+                                                      monto_pagado IN NUMBER)
+    IS
+    contador_factura    number;
+    contador_moneda     number;
+    contador_pago       number;
+    monto_total_factura number(19, 2);
+    monto_total_pagado  number(19, 2);
+
+BEGIN
+    --validamos que existan los registros que vienen de parametros
+    select count(*)
+    into contador_factura
+    from factura_orden_pago
+    where fact_orden_pago_id = id_factura_orden_pago
+      and estado = 'A';
+    select count(*) into contador_moneda from moneda where moneda_id = id_moneda and estado = 'A';
+    select count(*) into contador_pago from forma_pago where forma_pago_id = id_forma_pago and estado = 'A';
+
+    if (contador_factura = 1) then
+        if (contador_moneda = 1) then
+            if (contador_pago = 1) then
+                insert into pago(pago_id, create_date, estado, monto, user_create, fact_orden_pago_id, forma_pago_id,
+                                 moneda_id)
+                values (pago_seq.nextval, sysdate, 'A', monto_pagado, usuario, id_factura_orden_pago, id_forma_pago,
+                        id_moneda);
+                select sum(MONTO) into monto_total_pagado from PAGO where FACT_ORDEN_PAGO_ID = id_factura_orden_pago;
+                select MONTO
+                into monto_total_factura
+                from factura_orden_pago
+                where FACT_ORDEN_PAGO_ID = id_factura_orden_pago;
+                if (monto_total_pagado < monto_total_factura) then
+                    update factura_orden_pago
+                    set ESTADO_FACTURA='PAGADO PARCIALMENTE',
+                        UPDATE_DATE=SYSDATE,
+                        USER_UPDATE= usuario
+                    WHERE FACT_ORDEN_PAGO_ID = id_factura_orden_pago;
+                else
+                    update factura_orden_pago
+                    set ESTADO_FACTURA='PAGADO',
+                        UPDATE_DATE=SYSDATE,
+                        USER_UPDATE= usuario
+                    WHERE FACT_ORDEN_PAGO_ID = id_factura_orden_pago;
+                end if;
+                commit;
+            end if;
+        end if;
+    end if;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        ROLLBACK;
+    WHEN OTHERS THEN
+        ROLLBACK;
+END crear_pago;
+/
+
+--PROCEDIMINETO PARA DENEGAR UN PEDIDO
+--SE EJECUTA DESDE EL SISTEMA
+create or replace PROCEDURE denegar_pedido(ID_Pedido NUMBER, usuario IN VARCHAR2)
 IS
 estado_pedido number;
 BEGIN
@@ -9,9 +108,7 @@ BEGIN
     update pedido set pro_pedi_id=estado_pedido,update_date=sysdate,user_update=user,estado='N' where pedido_id=ID_Pedido;
    else
    insert into progreso_pedido(pro_pedi_id, estado_pedido, user_create,create_date,estado) values (prog_pedi_seq.nextval,'Cancelado', user, sysdate,'A');
-   begin
-   select pro_pedi_id into estado_pedido from Progreso_pedido where Estado_pedido ='Cancelado' and estado ='A';
-    end;
+    select pro_pedi_id into estado_pedido from Progreso_pedido where Estado_pedido ='Cancelado' and estado ='A';
      update pedido set pro_pedi_id=estado_pedido,update_date=sysdate,user_update=user,estado='N' where pedido_id=ID_Pedido;
      commit;
    end if;
@@ -22,9 +119,10 @@ BEGIN
     WHEN OTHERS THEN
      ROLLBACK;
 
-END;
+END denegar_pedido;
+/
 
-create or replace NONEDITIONABLE PROCEDURE APROBAR_PEDIDO(Id_Pedido IN NUMBER, usuario IN VARCHAR2)
+create or replace PROCEDURE APROBAR_PEDIDO(Id_Pedido IN NUMBER, usuario IN VARCHAR2)
     IS
     --Declaracion de variables
     estado_pedido             number;
@@ -113,17 +211,17 @@ BEGIN
             where PRODUCTO_ID = resultado.PRODUCTO_ID
               and PEDIDO_ID = Id_Pedido
               and PEDI_PROV_ID = orden_provee;
+             IF (contador_facturas = 0) THEN
+                INSERT INTO FACTURA_ORDEN_PAGO(fact_orden_pago_id, create_date, estado,monto,estado_factura, fecha_emision, numero_factura,
+                                               user_create, pedi_prov_id)
+                VALUES (FACT_ORDEN_PAGO_SEQ.nextval, sysdate, 'A', 0.0,'PENDIENTE',SYSDATE, FACT_ORDEN_PAGO_SEQ.nextval, usuario,
+                        orden_provee);
+            end if;
             if (pedido_producto_proveedor = 0) then
                 DBMS_OUTPUT.PUT_LINE('si entro');
                 insert into proveedor_pedido_producto(PEDIDO_ID, PRODUCTO_ID, PEDI_PROV_ID)
                 values (Id_Pedido, resultado.PRODUCTO_ID, orden_provee);
 
-            end if;
-            IF (contador_facturas = 0) THEN
-                INSERT INTO FACTURA_ORDEN_PAGO(fact_orden_pago_id, create_date, estado, fecha_emision, numero_factura,
-                                               user_create, pedi_prov_id)
-                VALUES (FACT_ORDEN_PAGO_SEQ.nextval, sysdate, 'A', SYSDATE, FACT_ORDEN_PAGO_SEQ.nextval, usuario,
-                        orden_provee);
             end if;
 
         end if;
@@ -139,18 +237,19 @@ BEGIN
         where PRODUCTO_ID = resultado.PRODUCTO_ID
           and PEDIDO_ID = Id_Pedido
           and PEDI_PROV_ID = orden_provee;
+         IF (contador_facturas = 0) THEN
+           INSERT INTO FACTURA_ORDEN_PAGO(fact_orden_pago_id, create_date, estado,monto,estado_factura, fecha_emision, numero_factura,
+                                               user_create, pedi_prov_id)
+                VALUES (FACT_ORDEN_PAGO_SEQ.nextval, sysdate, 'A', 0.0,'PENDIENTE',SYSDATE, FACT_ORDEN_PAGO_SEQ.nextval, usuario,
+                        orden_provee);
+        end if;
         if (pedido_producto_proveedor = 0) then
             DBMS_OUTPUT.PUT_LINE('si entro');
             insert into proveedor_pedido_producto(PEDIDO_ID, PRODUCTO_ID, PEDI_PROV_ID)
             values (Id_Pedido, resultado.PRODUCTO_ID, orden_provee);
 
         end if;
-        IF (contador_facturas = 0) THEN
-            INSERT INTO FACTURA_ORDEN_PAGO(fact_orden_pago_id, create_date, estado, fecha_emision, numero_factura,
-                                           user_create, pedi_prov_id)
-            VALUES (FACT_ORDEN_PAGO_SEQ.nextval, sysdate, 'A', SYSDATE, FACT_ORDEN_PAGO_SEQ.nextval, usuario,
-                    orden_provee);
-        end if;
+
 
     end loop;
     CLOSE c_proveedor_pedido;
@@ -167,32 +266,4 @@ EXCEPTION
 
 
 END APROBAR_PEDIDO;
-
-
-create or replace procedure crear_pago(id_factura_orden_pago IN NUMBER, id_moneda in number, id_forma_pago IN NUMBER, usuario in varchar2)
-IS
-contador_factura number;
-contador_moneda number;
-contador_pago number;
-
-BEGIN
-    --validamos que existan los registros que vienen de parametros
-    select count(*) into contador_factura from factura_orden_pago where fact_orden_pago_id = id_factura_orden_pago and estado='A';
-    select count(*) into contador_moneda from moneda where moneda_id = id_moneda and estado='A';
-    select count(*) into contador_pago from forma_pago where forma_pago_id = id_forma_pago and estado='A';
-    
-    if(contador_factura=1) then
-        if(contador_moneda=1) then
-            if(contador_pago=1) then
-            insert into pago(pago_id,create_date,estado,user_create,fact_orden_pago_id,forma_pago_id,moneda_id) 
-            values(pago_seq.nextval,sysdate,'A',usuario,id_factura_orden_pago,id_forma_pago,id_moneda);
-            commit;
-            end if;
-        end if;
-    end if;
-  EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        ROLLBACK;
-    WHEN OTHERS THEN
-        ROLLBACK; 
-END crear_pago;
+/

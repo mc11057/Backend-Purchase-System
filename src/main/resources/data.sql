@@ -143,4 +143,14 @@ insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,2,28.0
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (2,3,10.0);
 insert into producto_proveedor(proveedor_id,producto_id,precio) values (1,3,10.0);
 
+-- INSERT INTO MONEDA
+insert into moneda(moneda_id,create_date,estado,nombre,user_create) values (moneda_seq.nextval,sysdate,'A','DOLLAR','WALTER');
+insert into moneda(moneda_id,create_date,estado,nombre,user_create) values (moneda_seq.nextval,sysdate,'A','EURO','WALTER');
+
+
+-- INSERT INTO FORMA DE PAGO
+insert into forma_pago(forma_pago_id,create_date,estado,nombre,user_create) values (forma_pago_seq.nextval,sysdate,'A','EFECTIVO','WALTER');
+insert into forma_pago(forma_pago_id,create_date,estado,nombre,user_create) values (forma_pago_seq.nextval,sysdate,'A','CHEQUE','WALTER');
+insert into forma_pago(forma_pago_id,create_date,estado,nombre,user_create) values (forma_pago_seq.nextval,sysdate,'A','TARJETA','WALTER');
+
 

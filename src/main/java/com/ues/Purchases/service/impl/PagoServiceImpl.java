@@ -33,9 +33,9 @@ public class PagoServiceImpl implements IPagoService {
 	}
 
 	@Override
-	public void crearPago(Pago pago, String usuuario) throws Exception {
+	public void crearPago(Pago pago, String usuuario,Double monto) throws Exception {
 		pagoRepository.crear_pago(pago.getFacturaOrdenPagoId().getFacturaOrdenPagoId(),
-				pago.getMonedaId().getMonedaId(), pago.getFormaPagoId().getFormaPagoId(), usuuario);
+				pago.getMonedaId().getMonedaId(), pago.getFormaPagoId().getFormaPagoId(), usuuario,monto);
 
 	}
 

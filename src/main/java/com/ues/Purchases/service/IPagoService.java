@@ -11,7 +11,7 @@ public interface IPagoService {
 	
 	Pago findById(Long id) throws Exception;
 	
-	 void crearPago(Pago pago, String usuario) throws Exception;
+	 void crearPago(Pago pago, String usuario,Double monto) throws Exception;
 	
 	
 	
