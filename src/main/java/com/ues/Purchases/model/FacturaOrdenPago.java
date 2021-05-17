@@ -2,7 +2,6 @@ package com.ues.Purchases.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -20,29 +18,32 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class PedidoProveedor {
-	
-	
-	@OneToMany(mappedBy = "pedidoProveedorId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.FacturaOrdenPago.class)
-	private List<FacturaOrdenPago> facturaordenesPago;
+public class FacturaOrdenPago {
 	
 
-	@ManyToMany(mappedBy = "pedidoproducto")
-    Set<PedidoProducto> proveedor;
+	@OneToMany(mappedBy = "facturaOrdenPagoId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pago.class)
+	private List<Pago> pagos;
+	
 	
 	@ManyToOne
-	@JoinColumn(name = "proveedor_id", nullable = false )
-	private Proveedor proveedorId;
-	
-	@ManyToOne
-	@JoinColumn(name = "orden_compra_id", nullable = false )
-	private IngresoOrdenCompra ordenCompraId;
+	@JoinColumn(name = "pediProv_id", nullable = false )
+	private PedidoProveedor pedidoProveedorId;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_provee_seq")
-	@SequenceGenerator(name = "pedido_provee_seq", sequenceName = "PediProve_seq", allocationSize = 1)
-	@Column(name = "pediProv_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long pedidoProveedorId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fact_orden_pago_seq")
+	@SequenceGenerator(name = "fact_orden_pago_seq", sequenceName = "FactOrdenPago_seq", allocationSize = 1)
+	@Column(name = "factOrdenPago_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long facturaOrdenPagoId;
+
+	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "num_factura_seq")
+	@SequenceGenerator(name = "num_factura_seq", sequenceName = "NunFactura_seq", allocationSize = 1)
+	@Column(unique = true, nullable = false, precision = 15, scale = 0)
+	Long numeroFactura;
+	
+	@Column(name = "fecha_emision", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEmision;
 	
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -66,28 +67,36 @@ public class PedidoProveedor {
 	@Column(nullable = false, length = 1)
 	private String estado;
 
-	public Proveedor getProveedorId() {
-		return proveedorId;
-	}
-
-	public void setProveedorId(Proveedor proveedorId) {
-		this.proveedorId = proveedorId;
-	}
-
-	public IngresoOrdenCompra getOrdenCompraId() {
-		return ordenCompraId;
-	}
-
-	public void setOrdenCompraId(IngresoOrdenCompra ordenCompraId) {
-		this.ordenCompraId = ordenCompraId;
-	}
-
-	public Long getPedidoProveedorId() {
+	public PedidoProveedor getPedidoProveedorId() {
 		return pedidoProveedorId;
 	}
 
-	public void setPedidoProveedorId(Long pedidoProveedorId) {
+	public void setPedidoProveedorId(PedidoProveedor pedidoProveedorId) {
 		this.pedidoProveedorId = pedidoProveedorId;
+	}
+
+	public Long getFacturaOrdenPagoId() {
+		return facturaOrdenPagoId;
+	}
+
+	public void setFacturaOrdenPagoId(Long facturaOrdenPagoId) {
+		this.facturaOrdenPagoId = facturaOrdenPagoId;
+	}
+
+	public Long getNumeroFactura() {
+		return numeroFactura;
+	}
+
+	public void setNumeroFactura(Long numeroFactura) {
+		this.numeroFactura = numeroFactura;
+	}
+
+	public Date getFechaEmision() {
+		return fechaEmision;
+	}
+
+	public void setFechaEmision(Date fechaEmision) {
+		this.fechaEmision = fechaEmision;
 	}
 
 	public Date getCreateDate() {
@@ -129,7 +138,8 @@ public class PedidoProveedor {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
+	
+	
 	
 
 }

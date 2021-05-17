@@ -1,53 +1,45 @@
 package com.ues.Purchases.model;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class PedidoProveedor {
+public class Pago {
+	
+	@ManyToOne
+	@JoinColumn(name = "moneda_id", nullable = false )
+	private Moneda monedaId;
+	
+	@ManyToOne
+	@JoinColumn(name = "forma_pago_id", nullable = false )
+	private FormaPago formaPagoId;
 	
 	
-	@OneToMany(mappedBy = "pedidoProveedorId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.FacturaOrdenPago.class)
-	private List<FacturaOrdenPago> facturaordenesPago;
-	
+	@ManyToOne
+	@JoinColumn(name = "factOrdenPago_id", nullable = false )
+	private FacturaOrdenPago facturaOrdenPagoId;
 
-	@ManyToMany(mappedBy = "pedidoproducto")
-    Set<PedidoProducto> proveedor;
-	
-	@ManyToOne
-	@JoinColumn(name = "proveedor_id", nullable = false )
-	private Proveedor proveedorId;
-	
-	@ManyToOne
-	@JoinColumn(name = "orden_compra_id", nullable = false )
-	private IngresoOrdenCompra ordenCompraId;
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_provee_seq")
-	@SequenceGenerator(name = "pedido_provee_seq", sequenceName = "PediProve_seq", allocationSize = 1)
-	@Column(name = "pediProv_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long pedidoProveedorId;
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pago_seq")
+	@SequenceGenerator(name = "pago_seq", sequenceName = "Pago_seq", allocationSize = 1)
+	@Column(name = "pago_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long pagoId;
+
+
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -65,29 +57,36 @@ public class PedidoProveedor {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
-
-	public Proveedor getProveedorId() {
-		return proveedorId;
+	public Moneda getMonedaId() {
+		return monedaId;
 	}
 
-	public void setProveedorId(Proveedor proveedorId) {
-		this.proveedorId = proveedorId;
+	public void setMonedaId(Moneda monedaId) {
+		this.monedaId = monedaId;
 	}
 
-	public IngresoOrdenCompra getOrdenCompraId() {
-		return ordenCompraId;
+	public FormaPago getFormaPagoId() {
+		return formaPagoId;
 	}
 
-	public void setOrdenCompraId(IngresoOrdenCompra ordenCompraId) {
-		this.ordenCompraId = ordenCompraId;
+	public void setFormaPagoId(FormaPago formaPagoId) {
+		this.formaPagoId = formaPagoId;
 	}
 
-	public Long getPedidoProveedorId() {
-		return pedidoProveedorId;
+	public FacturaOrdenPago getFacturaOrdenPagoId() {
+		return facturaOrdenPagoId;
 	}
 
-	public void setPedidoProveedorId(Long pedidoProveedorId) {
-		this.pedidoProveedorId = pedidoProveedorId;
+	public void setFacturaOrdenPagoId(FacturaOrdenPago facturaOrdenPagoId) {
+		this.facturaOrdenPagoId = facturaOrdenPagoId;
+	}
+
+	public Long getPagoId() {
+		return pagoId;
+	}
+
+	public void setPagoId(Long pagoId) {
+		this.pagoId = pagoId;
 	}
 
 	public Date getCreateDate() {
@@ -129,7 +128,7 @@ public class PedidoProveedor {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
 	
-
+	
+	
 }

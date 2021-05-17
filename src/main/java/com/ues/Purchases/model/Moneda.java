@@ -2,7 +2,6 @@ package com.ues.Purchases.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,9 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -20,34 +16,23 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class PedidoProveedor {
+public class Moneda {
 	
-	
-	@OneToMany(mappedBy = "pedidoProveedorId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.FacturaOrdenPago.class)
-	private List<FacturaOrdenPago> facturaordenesPago;
-	
-
-	@ManyToMany(mappedBy = "pedidoproducto")
-    Set<PedidoProducto> proveedor;
-	
-	@ManyToOne
-	@JoinColumn(name = "proveedor_id", nullable = false )
-	private Proveedor proveedorId;
-	
-	@ManyToOne
-	@JoinColumn(name = "orden_compra_id", nullable = false )
-	private IngresoOrdenCompra ordenCompraId;
+	@OneToMany(mappedBy = "monedaId", cascade = { CascadeType.ALL },targetEntity = com.ues.Purchases.model.Pago.class)
+	private List<Pago> pagos;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_provee_seq")
-	@SequenceGenerator(name = "pedido_provee_seq", sequenceName = "PediProve_seq", allocationSize = 1)
-	@Column(name = "pediProv_id", unique = true, nullable = false, precision = 15, scale = 0)
-	Long pedidoProveedorId;
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moneda_seq")
+	@SequenceGenerator(name = "moneda_seq", sequenceName = "Moneda_seq", allocationSize = 1)
+	@Column(name = "moneda_id", unique = true, nullable = false, precision = 15, scale = 0)
+	Long monedaId;
+
+	@Column(name = "nombre", unique = true, nullable = false, length = 100)
+	private String nombre;
+
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -65,29 +50,20 @@ public class PedidoProveedor {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
-
-	public Proveedor getProveedorId() {
-		return proveedorId;
+	public Long getMonedaId() {
+		return monedaId;
 	}
 
-	public void setProveedorId(Proveedor proveedorId) {
-		this.proveedorId = proveedorId;
+	public void setMonedaId(Long monedaId) {
+		this.monedaId = monedaId;
 	}
 
-	public IngresoOrdenCompra getOrdenCompraId() {
-		return ordenCompraId;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setOrdenCompraId(IngresoOrdenCompra ordenCompraId) {
-		this.ordenCompraId = ordenCompraId;
-	}
-
-	public Long getPedidoProveedorId() {
-		return pedidoProveedorId;
-	}
-
-	public void setPedidoProveedorId(Long pedidoProveedorId) {
-		this.pedidoProveedorId = pedidoProveedorId;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Date getCreateDate() {
@@ -131,5 +107,5 @@ public class PedidoProveedor {
 	}
 
 	
-
+	
 }
