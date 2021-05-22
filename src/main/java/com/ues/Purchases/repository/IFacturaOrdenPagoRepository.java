@@ -9,7 +9,7 @@ import com.ues.Purchases.model.FacturaOrdenPago;
 
 public interface IFacturaOrdenPagoRepository extends JpaRepository<FacturaOrdenPago, Long> {
 	
-	@Query(value = "select * from factura_orden_pago where Estado='A'" , nativeQuery = true)
+	@Query(value = "select * from factura_orden_pago where Estado='A' and estado_factura in ('PENDIENTE','PAGADO PARCIALMENTE')" , nativeQuery = true)
 	 List<FacturaOrdenPago> obtenerFacturaOrdenPagoActivos();
 
 }

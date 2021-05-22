@@ -57,6 +57,10 @@ public class Pago {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
+	
+	@Column(nullable = false)
+	private Double monto;
+	
 	public Moneda getMonedaId() {
 		return monedaId;
 	}
@@ -128,6 +132,16 @@ public class Pago {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public Double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(Double monto) {
+		this.monto = monto;
+	}
+	
+	
 	
 	
 	

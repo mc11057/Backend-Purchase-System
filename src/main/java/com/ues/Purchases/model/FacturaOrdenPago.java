@@ -48,6 +48,8 @@ public class FacturaOrdenPago {
 	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
+	
+	
 
 	@PrePersist
 	public void prePersist() {
@@ -66,6 +68,12 @@ public class FacturaOrdenPago {
 	
 	@Column(nullable = false, length = 1)
 	private String estado;
+	
+	@Column(name = "estado_factura" ,nullable = false, length = 100)
+	private String estadoFactura;
+	
+	@Column(nullable = false)
+	private Double monto;
 
 	public PedidoProveedor getPedidoProveedorId() {
 		return pedidoProveedorId;
@@ -138,6 +146,24 @@ public class FacturaOrdenPago {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public String getEstadoFactura() {
+		return estadoFactura;
+	}
+
+	public void setEstadoFactura(String estadoFactura) {
+		this.estadoFactura = estadoFactura;
+	}
+
+	public Double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(Double monto) {
+		this.monto = monto;
+	}
+	
+	
 	
 	
 	

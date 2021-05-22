@@ -26,10 +26,10 @@ public class PagoController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Object> crearPago(@RequestBody Pago pago, String usuario) {
+	public ResponseEntity<Object> crearPago(@RequestBody Pago pago, String usuario, Double monto) {
 		
 	try {
-		pagoService.crearPago(pago, usuario);
+		pagoService.crearPago(pago, usuario,monto);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
