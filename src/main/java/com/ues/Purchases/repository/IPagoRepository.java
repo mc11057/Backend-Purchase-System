@@ -11,7 +11,7 @@ import com.ues.Purchases.model.Pago;
 public interface IPagoRepository extends JpaRepository<Pago, Long>{
 	
 	 @Procedure
-	    void crear_pago( long id_factura_orden_pago , long id_moneda ,long id_forma_pago ,String usuario, Double monto);
+	    void crear_pago( long id_factura_orden_pago , long id_moneda ,long id_forma_pago ,String usuario, Double monto_pagado);
 	 
 	 @Query(value = "select * from pago where estado='A'" , nativeQuery = true)
 		 List<Pago> obtenerPagoActivos();

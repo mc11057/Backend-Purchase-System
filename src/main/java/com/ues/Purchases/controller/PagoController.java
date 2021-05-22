@@ -1,5 +1,7 @@
 package com.ues.Purchases.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +28,10 @@ public class PagoController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Object> crearPago(@RequestBody Pago pago, String usuario, Double monto) {
+	public ResponseEntity<Object> crearPago(@RequestBody List<Pago> pagos) {
 		
 	try {
-		pagoService.crearPago(pago, usuario,monto);
+			pagoService.guardarPagos(pagos);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (NotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
